@@ -1,0 +1,28 @@
+.header-titles {
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    margin-top: 30px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown-item {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    display: block;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f1f1f1;
+  }
+  .color-darkBlue{
+    background-color: #4e96af;//#15659f;
+  }

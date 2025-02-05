@@ -1,0 +1,16 @@
+<div class="dialog-container">
+  <button mat-icon-button class="close-icon" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="mb-[16px] mt-[16px] pl-[20px] text-sm">
+    <div class="text-center text-1xl font-bold">Transaction Details</div>
+    <div class="mt-[5px]">Transaction Id: {{data?.transNo}}</div>
+    <div class="mt-[1px]">Transaction Method: {{data?.payMethod}}</div>
+    <div class="mt-[1px]">Transaction Type: {{data?.transType}}</div>
+    <div class="mt-[1px]">Date: {{data?.date}}</div>
+    <div class="mt-[1px]">Amount: {{data?.amount}}</div>
+    <div class="mt-[1px] ">
+      Description: {{data?.otherInfo}}
+    </div>
+  </div>  
+</div>

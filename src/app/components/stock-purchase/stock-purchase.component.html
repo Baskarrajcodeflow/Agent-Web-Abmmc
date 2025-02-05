@@ -1,0 +1,67 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-md flex flex-col md:flex-row">
+        <div class="flex justify-center items-center mb-6 md:mb-0">
+            <img src="../../../assets/images/cashIn.jpg" alt="Cash Out Illustration" class="w-full h-auto md:max-w-md">
+        </div>
+        <div class="flex p-4 flex-grow">
+            <div class="flex flex-col justify-center items-center w-full">
+                <form action="" [formGroup]="stockTransfer" class="w-full">
+                    <div class="mx-auto p-2 w-full">
+                        <div class="bg-white shadow-lg rounded-lg p-3">
+                            <label for="input-box" class="block text-gray-700 text-sm font-bold mb-2">Current Stock Balance:</label>
+                            <input readonly formControlName="stock" id="input-box" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                    </div>
+
+                    <div class="mx-auto p-2 w-full">
+                        <div class="bg-white shadow-lg rounded-lg p-3">
+                            <label for="input-box" class="block text-gray-700 text-sm font-bold mb-2">Pay From:</label>
+                            <input readonly formControlName="payFrom" id="input-box" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                    </div>
+
+                    <div class="mx-auto p-2 w-full">
+                        <div class="bg-white shadow-lg rounded-lg p-3">
+                            <label for="input-box" class="block text-gray-700 text-sm font-bold mb-2">Amount To Purchase:</label>
+                            <input formControlName="stockToTransfer" id="input-box" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div  class="text-gray-700" style="font-weight: 500;margin-left: 4px;" *ngIf="totalAmount">
+                            <span>The Total Amount including Fees and Commission is</span>
+                            {{totalAmount}} AFN
+                          </div>
+                    </div>
+
+                    <div class="mx-auto p-2 w-full mt-1">
+                        <button
+                            [disabled]="stockTransfer.controls['stockToTransfer'].invalid"
+                            (click)="CheckAFC()"
+                            type="submit"
+                            class="w-full p-3 bg-white shadow-lg rounded-lg text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                            style="background-color: #0a365a"
+                        >
+                            Check Fees And Commission
+                        </button>
+                    </div>
+
+                    <div class="mx-auto p-2 w-full" *ngIf="totalAmount">
+                        <div class="bg-white shadow-lg rounded-lg p-3">
+                            <label for="input-box" class="block text-gray-700 text-sm font-bold mb-2">Enter Transaction PIN:</label>
+                            <input formControlName="PIN" id="input-box" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                    </div>
+<app-spinner></app-spinner>
+                    <div class="mx-auto p-2 w-full mt-4" *ngIf="totalAmount">
+                        <button
+                            (click)="sendMoney()"
+                            type="submit"
+                            class="w-full p-3 bg-white shadow-lg rounded-lg text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                            style="background-color: #0a365a"
+                        >
+                            Transfer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

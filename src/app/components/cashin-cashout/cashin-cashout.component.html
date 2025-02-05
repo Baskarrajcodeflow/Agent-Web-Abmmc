@@ -1,0 +1,77 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-md flex flex-col md:flex-row">
+    <div class="flex-1 flex justify-center items-center mb-6 md:mb-0">
+      <img src="../../../assets/images/cashIn.jpg" alt="Cash Out Illustration" class="w-full h-auto md:max-w-md">
+    </div>
+    <div class="flex p-4">
+      <div class="flex items-center mb-6">
+      </div>
+      <form [formGroup]="cashOutInForm">
+        <div class="mb-4">
+          <label class=" text-gray-700 text-sm font-bold mb-2" for="phone-number">Enter Phone Number</label>
+          <div>
+            <input formControlName="phoneNumber" type="text" id="phone-number"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-custom-blue"
+              placeholder="Phone Number">
+            <div *ngIf="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)" class="text-red-500 text-sm mt-1">
+              <div *ngIf="phoneNumber?.errors?.['required']">Phone number is required.</div>
+              <div *ngIf="phoneNumber?.errors?.['pattern']">Phone number must be 10 digits.</div>
+            </div>
+          </div>
+        </div>
+        <app-spinner></app-spinner>
+        <div class="mb-4">
+          <label class=" text-gray-700 text-sm font-bold mb-2" for="wallet-account">The Wallet Account Number is</label>
+          <div>
+            <input readonly formControlName="walletAccount" type="text" id="wallet-account"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-custom-blue"
+              placeholder="Wallet Account Number">
+            <div *ngIf="walletAccount?.invalid && (walletAccount?.dirty || walletAccount?.touched)" class="text-red-500 text-sm mt-1">
+              <div *ngIf="walletAccount?.errors?.['required']">Wallet account number is required.</div>
+              <div *ngIf="walletAccount?.errors?.['pattern']">Wallet account number must be a number.</div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class=" text-gray-700 text-sm font-bold mb-2" for="amount">Amount to Cash Out</label>
+          <div>
+            <input formControlName="amount" type="text" id="amount"
+              class="w-full px-4 py-2 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-custom-blue"
+              placeholder="AFN">
+            <div *ngIf="amount?.invalid && (amount?.dirty || amount?.touched)" class="text-red-500 text-sm mt-1">
+              <div *ngIf="amount?.errors?.['required']">Amount is required.</div>
+              <div *ngIf="amount?.errors?.['pattern']">Amount must be a number.</div>
+            </div>
+          </div>
+        <div class="mt-4">
+          <button type="submit"
+          class="w-full py-3 bg-custom-blue hover:bg-gray-600 text-white font-bold rounded-lg transition duration-200"
+          (click)="checkFeesAndCommision()">
+          Check Fees And Commission
+        </button>
+        </div>
+          <span class="text-sm font-bold text-[rgb(0,100,162)]" *ngIf="feesAndCommission">
+              The Fees and Commission will be {{feesAndCommission}}
+          </span>
+        </div>
+        <div class="mb-4">
+          <label class=" text-gray-700 text-sm font-bold mb-2" for="transaction-pin">Transaction Pin</label>
+          <div>
+            <input formControlName="transactionPin" type="password" id="transaction-pin"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-custom-blue"
+              placeholder="Transaction Pin">
+            <div *ngIf="transactionPin?.invalid && (transactionPin?.dirty || transactionPin?.touched)" class="text-red-500 text-sm mt-1">
+              <div *ngIf="transactionPin?.errors?.['required']">Transaction pin is required.</div>
+              <div *ngIf="transactionPin?.errors?.['pattern']">Transaction pin must be 4 digits.</div>
+            </div>
+          </div>
+        </div>
+        <button [disabled]="cashOutInForm.invalid" type="submit"
+          class="w-full py-3 bg-custom-blue hover:bg-gray-600 text-white font-bold rounded-lg transition duration-200"
+          (click)="onSubmit('cashout')">
+          Cash In
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

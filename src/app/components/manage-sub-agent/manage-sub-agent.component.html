@@ -1,0 +1,42 @@
+<div style="margin-top: 1px; padding: 10px; display: flex; justify-content: center;">
+    <div class="row" style="width: 100%;">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card" style="border-color: rgb(244, 248, 248); border-radius: 30px; width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title p-1" style="color: rgb(0, 100, 162);">Sub Agent List</h5>
+                    <table class="table" style="border: 1px solid #dee2e6; border-collapse: collapse; width: 100%;">
+                        <thead>
+                            <tr style="background-color: rgb(0, 100, 162); color: white;">
+                                <th style="text-align: center; border: 1px solid #dee2e6; width: 25%;">Sub-Agent Name</th>
+                                <th style="text-align: center; border: 1px solid #dee2e6; width: 25%;">Phone Number</th>
+                                <th style="text-align: center; border: 1px solid #dee2e6; width: 25%;">Wallet Number</th>
+                                <th style="text-align: center; border: 1px solid #dee2e6; width: 25%;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <app-spinner></app-spinner>
+                            <tr *ngFor="let item of subAgentData">
+                                <td style="text-align: center; border: 1px solid #dee2e6;">{{ item?.name }}</td>
+                                <td style="text-align: center; border: 1px solid #dee2e6;">{{ item?.phoneNumber }}</td>
+                                <td style="text-align: center; border: 1px solid #dee2e6;">{{ item?.walletNumber }}</td>
+                                <td style="text-align: center; border: 1px solid #dee2e6;">
+                                 <div class="flex items-center justify-center gap-1">
+                                    <button (click)="onClickView(item)" style="font-size: 12px;" class=" w-1/3 text-center
+                                    bg-[#3a72a0] text-white border border-indigo-400   rounded-md">
+                                       View
+                                     </button>
+                                     <button (click)="delete(item)" style="font-size: 12px;" class=" w-1/3 text-center
+                                     bg-[#d23232] text-white border border-indigo-400   rounded-md">
+                                        Delete
+                                      </button>
+                                 </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,91 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div
+      class="w-full max-w-lg bg-white p-8 rounded-lg shadow-md flex flex-col md:flex-row"
+    >
+      <!-- <div class="flex justify-center items-center mb-6 md:mb-0">
+              <img src="../../../assets/images/cashIn.jpg" alt="Cash Out Illustration" class="w-full h-auto md:max-w-md">
+          </div> -->
+      <div class="flex p-4 flex-grow">
+        <div class="flex flex-col justify-center items-center w-full">
+          <form action="" [formGroup]="dcmsForm" class="w-full">
+            <div class="mx-auto p-2 w-full">
+              <div class="bg-white shadow-lg rounded-lg p-3">
+                <label
+                  for="input-box"
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  >Enter Wallet Number:</label
+                >
+                <div class="flex">
+                  <input
+                    formControlName="searchNum"
+                    id="input-box"
+                    type="text"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                  <button 
+                  (click)="search()"
+                    class="text-white px-4 py-2 rounded-r focus:outline-none"
+                    style="background-color: #0a365a"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- <app-spinner></app-spinner> -->
+  
+            <div class="mx-auto p-2 w-full" >
+              <div class="bg-white shadow-lg rounded-lg p-3 text-center">
+                <label
+                  for="input-box"
+                  class="block text-gray-700 text-sm font-bold "
+                  > Amount Available For Withdrawal: {{payRollData}} AFN</label
+                >
+   
+              </div>
+              <div >
+                <div class="mx-auto p-2 w-full">
+                  <div class="bg-white shadow-lg rounded-lg p-3">
+                    <label
+                      for="input-box"
+                      class="block text-gray-700 text-sm font-bold mb-2"
+                      >AFN:</label
+                    >
+                    <input
+                      formControlName="Amount"
+                      id="input-box"
+                      type="text"
+                      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                  </div>
+                </div>
+                <div class="mx-auto p-2 w-full mt-4">
+                  <button
+                  (click)="onSubmit()"
+                    type="submit"
+                    class="w-full p-3 bg-orange-600 shadow-lg rounded-lg text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                  >
+                    Send Request
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-spinner></app-spinner>

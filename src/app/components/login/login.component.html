@@ -1,0 +1,318 @@
+
+<div class="w-full mt-[50px]" >
+  <div class="w-full" *ngIf="value">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <div>
+        <h2
+          *ngIf="currentView === 'login'"
+          class="text-center text-[rgb(0,100,162)] text-2xl font-bold leading-9 tracking-tight"
+        >
+          {{ "button.login" | translate }}
+        </h2>
+
+        <h2
+          *ngIf="currentView === 'forgotPassword'"
+          class="mt-4 text-center text-[rgb(0,100,162)] text-2xl font-bold leading-9"
+        >
+          {{ "general.reset_password" | translate }}
+        </h2>
+        <h2
+          *ngIf="currentView === 'otpVerification'"
+          class="mt-4 text-center text-2xl font-bold leading-9"
+        >
+          {{ "general.otp_verification" | translate }}
+        </h2>
+      </div>
+    </div>
+    <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form
+        *ngIf="currentView === 'login'"
+        class="space-y-6"
+        #loginForm="ngForm"
+        action="#"
+        method="POST"
+      >
+        <div class="mb-4">
+          <label class=" ">Username</label>
+          <input
+            id="username"
+            name="username"
+            [(ngModel)]="username"
+            type="email"
+            autocomplete="username"
+            pattern=""
+            required
+            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          <div
+            *ngIf="username && username.length < 9"
+            class="text-red-500 text-sm mt-1"
+          >
+            Invalid
+          </div>
+          <div
+            *ngIf="username == null || username == ''"
+            class="text-red-500 text-sm mt-1"
+          >
+            Required
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label
+              for="password"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >{{ "profile.password" | translate }}</label
+            >
+            <div class="text-sm">
+              <a
+                (click)="switchView('forgotPassword')"
+                class="font-semibold text-[rgb(0,100,162)]"
+                >{{ "general.forgotPassword" | translate }}
+              </a>
+            </div>
+          </div>
+          <div class="mt-2 relative">
+            <input
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              type="password"
+              autocomplete="current-password"
+              pattern="[0-9]*"
+              (keypress)="onKeyPress($event)"
+              required
+              class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+              placeholder="{{ 'profile.password' | translate }}"
+            />
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <svg
+                class="w-6 h-6 mr-2 pl-2"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid"
+            (click)="login()"
+            class="w-full mt-[18px] text-center bg-btn-gradient text-white mr-4 hover:button-primary-light font-sm py-2 px-4 rounded-md items-center transition duration-200"
+          >
+            {{ "general.sign_in" | translate }}
+          </button>
+        </div>
+
+
+        <div class="mt-10 text-center text-sm text-gray-500">
+          {{ "general.not_a_member" | translate }}
+          <div
+            (click)="gotoSignUp(false)"
+            class="font-semibold leading-6 text-[rgb(0,100,162)]"
+          >
+            {{ "general.create_account" | translate }}
+          </div>
+        </div>
+      </form>
+      <form
+        *ngIf="currentView === 'forgotPassword'"
+        class="space-y-6"
+        #loginForm="ngForm"
+        action="#"
+        method="POST"
+      >
+        <div>
+          <label
+            for="email"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >{{ "profile.RegisteredEmail" | translate }}</label
+          >
+          <div class="mt-2 relative">
+            <input
+              id="email"
+              name="email"
+              [(ngModel)]="email"
+              type="email"
+              autocomplete="email"
+              [pattern]="emailPattern"
+              required
+              class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+              placeholder="Email Id"
+            />
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <svg
+                class="w-6 h-6 mr-2 pl-2"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            *ngIf="email && !email.match(emailPattern)"
+            class="text-red-500 text-sm mt-1"
+          >
+            Invalid Email Id
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid"
+            (click)="sendOtp()"
+            class="flex w-full justify-center rounded-md bg-[rgb(244,122,32)] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-[rgb(244,122,32)]"
+          >
+            Send OTP
+          </button>
+        </div>
+      </form>
+
+      <form
+        *ngIf="currentView === 'otpVerification'"
+        class="space-y-6"
+        #loginForm="ngForm"
+        action="#"
+        method="POST"
+        (ngSubmit)="login()"
+      >
+        <div>
+          <div class="mt-2 relative">
+            <input
+              id="email"
+              name="email"
+              [(ngModel)]="email"
+              type="email"
+              autocomplete="email"
+              [pattern]="emailPattern"
+              required
+              class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+              placeholder="Email Id"
+            />
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <svg
+                class="w-6 h-6 mr-2 pl-2"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            *ngIf="email && !email.match(emailPattern)"
+            class="text-red-500 text-sm mt-1"
+          >
+            Invalid Email Id
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid"
+            (click)="sendOtp()"
+            class="flex w-full justify-center rounded-md bg-[rgb(244,122,32)] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-[rgb(244,122,32)]"
+          >
+            Send OTP
+          </button>
+        </div>
+      </form>
+
+  
+    </div>
+  </div>
+
+  <div *ngIf="otpVerify" class="my-auto" style="margin-top: 100px">
+    <h2
+      class="text-center text-[rgb(0,100,162)] text-2xl font-bold leading-9 tracking-tight"
+    >
+      Verify OTP
+    </h2>
+
+    <div class="mb-4">
+      <label class=" ">Enter OTP</label>
+      <input
+        [(ngModel)]="otp"
+        required
+        class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pr-4 py-2"
+      />
+    </div>
+    <button
+      (click)="onSaveOtp()"
+      type="submit"
+      class="w-full py-3 bg-custom-orange bg-orange-600 text-white font-bold rounded-lg transition duration-200"
+    >
+      Verify OTP
+    </button>
+  </div>
+  <app-spinner></app-spinner>
+
+  <div *ngIf="resetPwdData">
+    <div class="mb-4">
+      <label class=" ">Enter Password</label>
+      <input
+        type="password"
+        [(ngModel)]="newPassword"
+        required
+        class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+    <div class="mb-4">
+      <label class=" ">Confirm Password</label>
+      <input
+        type="password"
+        [(ngModel)]="password"
+        required
+        class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+    <button
+    [disabled]="!password || !newPassword"
+      (click)="pwdReset()"
+      type="submit"
+      class="w-full py-3 bg-custom-orange bg-orange-600 text-white font-bold rounded-lg transition duration-200"
+    >
+      Change Password
+    </button>
+  </div>
+  
+  <ng-container *ngIf="!value && !otpVerify && !resetPwdData">
+        <app-signup></app-signup>
+      </ng-container>
+</div>
+

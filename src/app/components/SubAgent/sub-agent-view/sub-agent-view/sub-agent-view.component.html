@@ -1,0 +1,66 @@
+<form [formGroup]="subAgentForm" (ngSubmit)="onSave()" class="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
+  <h2 class="text-xl font-semibold text-center mb-6">Subagent Registration</h2>
+  <div class="grid grid-cols-1 gap-4">
+    <div class="mb-4">
+      <label for="companyName" class="block text-sm font-medium text-gray-700">Company Name</label>
+      <input id="companyName" type="text" formControlName="companyName" class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="subAgentForm.controls['companyName'].invalid && (subAgentForm.controls['companyName'].dirty || subAgentForm.controls['companyName'].touched)" class="text-red-500 text-sm mt-1">
+        Company Name is required.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="licenseNumber" class="block text-sm font-medium text-gray-700">License Number</label>
+      <input id="licenseNumber" type="text" formControlName="licenseNumber" class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="subAgentForm.controls['licenseNumber'].invalid && (subAgentForm.controls['licenseNumber'].dirty || subAgentForm.controls['licenseNumber'].touched)" class="text-red-500 text-sm mt-1">
+        License Number is required.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+      <input id="email" type="email" formControlName="email" class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="subAgentForm.controls['email'].invalid && (subAgentForm.controls['email'].dirty || subAgentForm.controls['email'].touched)" class="text-red-500 text-sm mt-1">
+        Please enter a valid email.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+      <input id="phone" type="text" formControlName="phone" class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="subAgentForm.controls['phone'].invalid && (subAgentForm.controls['phone'].dirty || subAgentForm.controls['phone'].touched)" class="text-red-500 text-sm mt-1">
+        Phone number should be at least 9 digits.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="commissionPercentage" class="block text-sm font-medium text-gray-700">Commission Percentage</label>
+      <input id="commissionPercentage" type="text" formControlName="commissionPercentage" class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="subAgentForm.controls['commissionPercentage'].invalid && (subAgentForm.controls['commissionPercentage'].dirty || subAgentForm.controls['commissionPercentage'].touched)" class="text-red-500 text-sm mt-1">
+       Enter a valid Commission Percentage.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+      <input id="password" type="password" formControlName="password" class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="subAgentForm.controls['password'].invalid && (subAgentForm.controls['password'].dirty || subAgentForm.controls['password'].touched)" class="text-red-500 text-sm mt-1">
+        Password is required.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+      <input id="confirmPassword" type="password" formControlName="confirmPassword" class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="subAgentForm.controls['confirmPassword'].invalid && (subAgentForm.controls['confirmPassword'].dirty || subAgentForm.controls['confirmPassword'].touched)" class="text-red-500 text-sm mt-1">
+        Passwords must match.
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-between mt-6">
+    <button type="button" (click)="onCancel()" class="px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400">Cancel</button>
+    <button type="submit" [disabled]="subAgentForm.invalid" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+            style="background-color: #0a365a;">Save</button>
+  </div>
+</form>

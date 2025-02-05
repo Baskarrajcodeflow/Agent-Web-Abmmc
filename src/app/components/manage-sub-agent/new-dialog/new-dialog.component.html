@@ -1,0 +1,187 @@
+<div *ngIf="currentPage === 1" class="container mx-auto mt-4 p-4 rounded-lg shadow-lg bg-white">
+    <img src="../../../../assets/images/aub_logo.jpg" alt="Profile Image" class="mx-auto rounded-full w-24 h-24 mb-4">
+    
+    <div class="mt-4 flex items-center">
+        <mat-icon class="text-gray-600 mr-2">person</mat-icon>
+        <span>Name:</span>
+        <span style="font-size: 14px" class="ml-2">{{ data?.name }}</span>
+    </div>
+    <div class="mt-4 flex items-center">
+      <mat-icon class="text-gray-600 mr-2">phone</mat-icon>
+      <span>Phone Number:</span>
+      <span class="ml-2" style="font-size: 14px">{{ data?.phoneNumber }}</span>
+  </div>
+    <div class="mt-4 flex items-center">
+        <mat-icon class="text-gray-600 mr-2">credit_card</mat-icon>
+        <span>Wallet Number:</span>
+        <span style="font-size: 14px" class="ml-2">{{ data?.walletNumber }}</span>
+    </div>
+    <div class="mt-4 flex items-center">
+        <mat-icon class="text-gray-600 mr-2">book</mat-icon>
+        <span>KYC:</span>
+        <span style="font-size: 14px" class="ml-2">123</span>
+    </div>
+    <div class="mt-4 flex items-center">
+      <mat-icon class="text-gray-600 mr-2">shopping_cart</mat-icon>
+      <span>Stock Balance</span>
+      <span style="font-size: 14px" class="ml-2">{{stockBalance}}</span>
+  </div>
+    
+<app-spinner></app-spinner>
+    <div class="mt-4 flex space-x-4">
+        <button
+      (click)="nextPageCommission()"
+        type="submit"
+        class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style="background-color: #d23232"
+      >
+        Set Commission
+      </button>
+      <button
+      (click)="nextPage()"
+      type="submit"
+      class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+      style="background-color: #0a365a"
+    >
+    Stock Transfer
+    </button>
+    </div>
+</div>
+
+<div *ngIf="currentPage == 2">
+    <div  class="container mx-auto mt-2 p-4 rounded-lg shadow-lg bg-white overflow-y-auto" style="max-height: 500px;">
+        <img src="../../../../assets/images/Up.svg" alt="Profile Image" class="mx-auto rounded-full w-24 h-24 mb-4">
+        
+        <form action="" [formGroup]="stockTransfer">
+          <div class="mx-auto p-2">
+              <div class="bg-white shadow-lg rounded-lg p-3">
+                <label for="input-box" class="block text-gray-700 text-sm font-bold mb-2">Current Stock Balance:</label>
+                <input formControlName="stock" id="input-box" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              </div>
+            </div>
+            
+            <div class="mx-auto p-2">
+              <div class="bg-white shadow-lg rounded-lg p-3">
+                <label for="input-box" class="block text-gray-700 text-sm font-bold mb-2">Destination User Info:</label>
+                <div class="text-center text-gray-700 text-sm">
+                  <div>
+                    {{data?.name}}
+                  </div>
+                  <div>
+                    {{data?.walletNumber}}
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="mx-auto p-2">
+              <div class="bg-white shadow-lg rounded-lg p-3">
+                <label for="input-box" class="block text-gray-700 text-sm font-bold mb-2">Stock To Transfer:</label>
+                <input formControlName="stockToTransfer" id="input-box" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              </div>
+              <div  class="text-gray-700" style="font-weight: 500;margin-left: 4px;" *ngIf="totalAmount">
+                <span>The Total Amount including Fees and Commission is</span>
+                {{totalAmount}} AFN
+              </div>
+            </div>
+
+            <div class="items-center justify-center flex">
+              <button
+              [disabled]="stockTransfer.controls['stockToTransfer'].invalid"
+              (click)="CheckAFC()"
+              type="submit"
+              class="p-3 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+              style="background-color: #0a365a"
+            >
+            Check Fees And Commission
+            </button>
+            </div>
+
+  
+            <div class="mx-auto p-2" *ngIf="totalAmount">
+              <div class="bg-white shadow-lg rounded-lg p-3">
+                <label for="input-box" class="block text-gray-700 text-sm font-bold mb-2">Enter Tranaction PIN:</label>
+                <input formControlName="PIN" id="input-box" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              </div>
+            </div>
+    
+        
+            <div class="mt-4 flex space-x-4" >
+                <button
+                (click)="previousPage()"
+                type="submit"
+                class="flex-1 inline-flex bg-gray-300 items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-black focus:outline-none focus:ring-2 focus:ring-offset-2"
+               
+              >
+               Cancel
+              </button>
+              <button *ngIf="totalAmount"
+              (click)="sendMoney()"
+              type="submit"
+              class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+              style="background-color: #0a365a"
+            >
+            Transfer
+            </button>
+            </div>
+          </form>
+     
+    </div>
+</div>
+
+<div *ngIf="currentPage === 3" class="container mx-auto mt-4 p-4 rounded-lg shadow-lg bg-white">
+  <img src="../../../../assets/images/aub_logo.jpg" alt="Profile Image" class="mx-auto rounded-full w-24 h-24 mb-4">
+  
+  <div class="mt-4 flex items-center">
+      <mat-icon class="text-gray-600 mr-2">person</mat-icon>
+      <span>Name:</span>
+      <span style="font-size: 14px" class="ml-2">{{ data?.name }}</span>
+  </div>
+  <div class="mt-4 flex items-center">
+    <mat-icon class="text-gray-600 mr-2">phone</mat-icon>
+    <span>Phone Number:</span>
+    <span class="ml-2" style="font-size: 14px">{{ data?.phoneNumber }}</span>
+</div>
+  <div class="mt-4 flex items-center">
+      <mat-icon class="text-gray-600 mr-2">credit_card</mat-icon>
+      <span>Wallet Number:</span>
+      <span style="font-size: 14px" class="ml-2">{{ data?.walletNumber }}</span>
+  </div>
+  <div class="mt-4 flex items-center">
+      <mat-icon class="text-gray-600 mr-2">book</mat-icon>
+      <span>KYC:</span>
+      <span style="font-size: 14px" class="ml-2">123</span>
+  </div>
+  <div class="mt-4 flex items-center">
+    <mat-icon class="text-gray-600 mr-2">balance</mat-icon>
+    <span>Stock Balance:</span>
+    <span style="font-size: 14px" class="ml-2">{{stockBalance}}</span>
+</div>
+
+<div class="mt-4 flex items-center">
+  <mat-icon class="text-gray-600 mr-2">shopping_cart</mat-icon>
+  <span>Given Commission:</span>
+  <span style="font-size: 14px" class="ml-2">{{data?.commission}}</span>
+</div>
+
+<div class="bg-white shadow-lg rounded-lg p-3 mt-4">
+  <label for="select-box" class="block text-gray-700 text-sm font-bold mb-2">Set Commission Percentage:</label>
+  <select [(ngModel)]="optionData" id="select-box" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    <option value="">Select an option</option>
+    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+  </select>
+</div>
+  
+<app-spinner></app-spinner>
+  <div class="mt-4 flex space-x-4">
+      <button
+    (click)="setCommission()"
+      type="submit"
+      class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+      style="background-color: #d23232"
+    >
+      Set Commission
+    </button>
+
+  </div>
+</div>
