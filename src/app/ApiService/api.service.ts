@@ -537,4 +537,15 @@ public customerKYCRegister(req: any) {
   console.log(url);
   return this.http.post<any>(url, req, { headers: h });
 }
+
+public generate(body: any) {
+  let url = `${environment.apiUrl}/aaa/generate`;
+  let h: HttpHeaders = this.getHeaders().set(
+    'Content-Type',
+    'application/json'
+  );
+  console.log(h);
+  return this.http.post<any>(url, body, { headers: h });
+}
+
 }

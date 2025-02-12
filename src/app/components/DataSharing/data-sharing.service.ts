@@ -36,6 +36,13 @@ export class DataSharingService {
     this.kyc.next(event);
   }
 
+  private agentType = new BehaviorSubject<boolean>(false);
+  agentType$ = this.agentType.asObservable();
+
+  agentTypeSignUp(event:any) {
+    this.agentType.next(event);
+  }
+
   private currentBalance = new BehaviorSubject<boolean>(false);
   currentBalance$ = this.currentBalance.asObservable();
 

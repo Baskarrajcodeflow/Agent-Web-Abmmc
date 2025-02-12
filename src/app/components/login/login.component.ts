@@ -35,7 +35,7 @@ export class LoginComponent {
   email: string = '';
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  currentView: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword' =
+  currentView: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword' | 'OTP' =
     'login';
   result: any;
   key: any;
@@ -141,14 +141,61 @@ export class LoginComponent {
   };
   username: any = null;
   passwords: any = null;
-  login() {
+  otpDigits: string[] = ['', '', '', '', '', ''];
+  otpError: string = '';
+  isLoading:boolean = false
+  moveToNext(index: number, event: any) {
+    if (event.target.value.length === 1 && index < 5) {
+      event.target.nextElementSibling?.focus();
+    }
+  }
+  login(event:any) {
+    sessionStorage.clear()
     this.credentials.username = this.username;
     this.credentials.password = this.passwords;
-    this.authService.login(this.username, this.password).subscribe({
+
+    let body = {
+      emailOrPhone:this.username,
+      password:this.password,
+      userType:'AGENT'
+    }
+    this.isLoading = true
+    this.apiService.generate(body).subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res?.responseCode == 200){
+         this.isLoading = false
+          if(event == 0){
+            alert('OTP has been sent to your email. Please verify.');
+          }else if(event == 1){
+          this.otpDigits = ['', '', '', '', '', ''];      
+            alert('OTP has been resent to your email. Please verify.');
+          }
+        this.currentView = 'OTP'
+        }else{
+         this.isLoading = false
+          this.otpDigits = ['', '', '', '', '', ''];      
+          alert(res?.error)
+        }
+      },error:()=>{
+        this.isLoading = false
+        alert('Something Went Wrong')
+      }
+    })
+
+   
+  }
+
+  loginNew(){
+    this.credentials.username = this.username;
+    this.credentials.password = this.passwords;
+    const otp = this.otpDigits.join('');
+
+    this.authService.login(this.username, this.password,otp).subscribe({
       next: (v: any) => {
         console.log(v);
         if (v?.responseCode == 200 || v?.responseCode == 2) {
-          alert(v?.message);
+          alert('Success');
           this.router.navigateByUrl('/dashboard');
           this.dataSharing.loginSignUp(true);
           this.dataSharing.setheaderSignUp(true);
@@ -159,8 +206,10 @@ export class LoginComponent {
           console.log(decodedToken);
           sessionStorage.setItem('UserId', decodedToken?.userId);
           this.getProfileData();
-        } else {
+        }
+         else {
           alert(v?.message);
+          // alert(v?.message);
         }
       },
     });
@@ -177,7 +226,12 @@ export class LoginComponent {
         'userType',
         res?.data?.userType
       );
+      sessionStorage.setItem(
+        'agentType',
+        res?.data?.agentType
+      );
       this.dataSharing.kycSignUp(res?.data)
+      this.dataSharing.agentTypeSignUp(res?.data?.agentType)
       this.apiService
         .getPayFromAccountDetails(res?.data?.walletAccount?.walletNo)
         .subscribe((res) => {

@@ -27,7 +27,9 @@ export class HeaderComponent implements OnInit {
   ){
   this.data.setheader$.subscribe((res)=>{
     this.showHeader = res
-    this.showHeaderData = sessionStorage.getItem('header')
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      this.showHeaderData = sessionStorage.getItem('header')
+    }
     this.loginData2 = res
   })
   this.data.kyc$.subscribe((res:any)=>{
@@ -36,16 +38,19 @@ export class HeaderComponent implements OnInit {
       this.kycCmomplete = res?.accountKycLevel;
       
     }
-    sessionStorage.setItem('KycLevel',res?.accountKycLevel)
-    this.kycTemplate = sessionStorage.getItem('KycLevel')
-    console.log(this.kycTemplate);
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('KycLevel',res?.accountKycLevel)
+      this.kycTemplate = sessionStorage.getItem('KycLevel')
+      console.log(this.kycTemplate);
+    }
   })
 
 }
 
 ngOnInit(): void {
-
-this.loginData = sessionStorage.getItem('JWT_TOKEN')
+  if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+    this.loginData = sessionStorage.getItem('JWT_TOKEN')
+  }
     
 }
  /* showHeaderProfile() : boolean {

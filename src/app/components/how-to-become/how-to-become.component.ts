@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { ApiService } from '../../ApiService/api.service';
 import { CommonModule } from '@angular/common';
+import { DataSharingService } from '../DataSharing/data-sharing.service';
 
 @Component({
   selector: 'app-how-to-become',
@@ -111,9 +112,16 @@ export class HowToBecomeComponent {
   uploadedImageFileNameExtension: any;
   uploadedImageFileData: any;
   agents: any;
+  agentType: any;
 
-constructor(private router:Router,private agentService: ApiService){
+constructor(private router:Router,private agentService: ApiService,
 
+  private dataSharing:DataSharingService
+){
+ this.dataSharing.agentType$.subscribe((res)=>{
+  this.agentType = res
+})
+this.agentType = sessionStorage.getItem('agentType')
 }
 ngOnInit(): void {
   this.initForm();

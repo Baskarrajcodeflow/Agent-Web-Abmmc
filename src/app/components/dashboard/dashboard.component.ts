@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { OurServicesComponent } from '../Our-Services/our-services.component';
 import { DataSharingService } from '../DataSharing/data-sharing.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [OurServicesComponent],
+  imports: [OurServicesComponent,CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -17,9 +18,11 @@ export class DashboardComponent {
 
   ){
     this.dataSharing.currentBalance$.subscribe((res)=>{
-      this.walletAmount = res
+      if(res){
+        this.walletAmount = res
+        this.walletAmount = sessionStorage.getItem('WalletAmount')
+      }
     })
-  this.walletAmount = sessionStorage.getItem('WalletAmount')
   }
 
   ngOnInit(){
