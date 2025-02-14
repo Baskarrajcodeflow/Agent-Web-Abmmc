@@ -35,12 +35,17 @@
         <div class="mb-4">
           <label class=" text-gray-700 text-sm font-bold mb-2" for="amount">Amount to Cash Out</label>
           <div>
-            <input formControlName="amount" type="text" id="amount"
+            <input
+            (keypress)="validateAmount($event)"
+            formControlName="amount" type="text" id="amount"
               class="w-full px-4 py-2 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-custom-blue"
               placeholder="AFN">
             <div *ngIf="amount?.invalid && (amount?.dirty || amount?.touched)" class="text-red-500 text-sm mt-1">
               <div *ngIf="amount?.errors?.['required']">Amount is required.</div>
               <div *ngIf="amount?.errors?.['pattern']">Amount must be a number.</div>
+              <span *ngIf="cashOutInForm.get('amount')?.errors?.['maxAmount']">
+                Amount cannot exceed Current Balance.
+              </span>
             </div>
           </div>
         <div class="mt-4">

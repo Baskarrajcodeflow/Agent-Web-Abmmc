@@ -65,11 +65,15 @@
                       >AFN:</label
                     >
                     <input
+            (keypress)="validateAmount($event)"
                       formControlName="Amount"
                       id="input-box"
                       type="text"
                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
+                    <span *ngIf="dcmsForm.get('amount')?.errors?.['maxAmount']">
+                      Amount cannot exceed Current Balance.
+                    </span>
                   </div>
                 </div>
                 <div class="mx-auto p-2 w-full mt-4">

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
 import { ApiService } from '../../ApiService/api.service';
 import { SpinnerService } from '../spinner/spinner.service';
 import { CommonModule } from '@angular/common';
@@ -22,15 +22,27 @@ export class WithdrawalComponent {
   receiverId!: number;
   feesAndCommission:any
   constructor(private fb: FormBuilder,private apiService:ApiService,private spinner:DatasharingService,private route:Router) { }
+  dataNew: any;
 
   ngOnInit(): void {
+    this.dataNew = sessionStorage.getItem('WalletAmount');
+
     this.cashOutInForm = this.fb.group({
-      amount: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{9}(\d{1})?$/)]],
+      amount: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[1-9][0-9]*$/) ,
+        this.maxAmountValidatorFactory() // Ensures only numbers, no leading zero, no 0 itself
+      ]),
+            phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{9}(\d{1})?$/)]],
       walletAccount: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       transactionPin: ['', [Validators.required, Validators.required]]
     });
-
+    this.cashOutInForm.get('amount')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[1-9][0-9]*$/),
+      this.maxAmountValidatorFactory()
+    ]);
+    this.cashOutInForm.get('amount')?.updateValueAndValidity(); // Refresh validation
     this.cashOutInForm.controls['phoneNumber'].valueChanges.subscribe((res)=>{
       if(res.length == 9){
         console.log(res);
@@ -145,4 +157,19 @@ export class WithdrawalComponent {
     //   console.log('Form not valid');
     // }
   }
+
+    maxAmountValidatorFactory() {
+      return (control: AbstractControl): ValidationErrors | null => {
+        const value = Number(control.value);
+        return value > this.dataNew ? { maxAmount: true } : null;
+      };
+    }
+    validateAmount(event: KeyboardEvent) {
+      const charCode = event.which ? event.which : event.keyCode;
+      
+      // Allow only numbers (48-57 are ASCII codes for 0-9)
+      if (charCode < 48 || charCode > 57) {
+        event.preventDefault();
+      }
+    }
 }

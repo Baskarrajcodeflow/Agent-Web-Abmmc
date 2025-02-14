@@ -30,10 +30,10 @@
 
 
 <app-spinner></app-spinner>
-<div class="relative">
-  <div *ngFor="let item of tranactionHistory">
+<div *ngIf="tranactionHistory" class="relative overflow-y-auto max-h-[350px]">
+  <div *ngFor="let item of tranactionHistory" > <!-- Set max-height -->
     <div
-    (click)="openDialog(item)"
+      (click)="openDialog(item)"
       class="min-h-full mt-[8px] max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[32rem] transition duration-300 ease-in-out transform hover:scale-105"
     >
       <div
@@ -47,11 +47,14 @@
           </div>
         </div>
         <div class="flex gap-1 my-auto ml-auto amount-container">
-          <div *ngIf="item?.transType == 'DEBIT'" class="text-red-600">
-            -AFN {{ item?.amount }}
+          <div *ngIf="item?.debitAmount === '0.0' && item?.creditAmount !== '0.0'" class="text-green-600">
+           Credited {{ item?.creditAmount }} AFN
           </div>
-          <div *ngIf="item?.transType == 'CREDIT'" class="text-green-600">
-            +AFN {{ item?.amount }}
+          <div *ngIf="item?.creditAmount === '0.0' && item?.debitAmount !== '0.0'" class="text-red-600">
+            Debited {{ item?.debitAmount }} AFN
+          </div>
+          <div *ngIf="item?.creditAmount === '0.0' && item?.debitAmount === '0.0'" class="text-red-600">
+           Nil
           </div>
           <div class="mt-[5px]">
             <img src="../../../assets/images/info 1.png" alt="" />
@@ -64,9 +67,8 @@
     class="flex gap-2 mt-[5px]"
     style="align-items: center; justify-content: center"
   >
-
-  <div class="font-bold text-gray-400" style="font-size: 20px;" *ngIf="tranactionHistory == 0">
-  No Data
-  </div>
+    <div class="font-bold text-gray-400" style="font-size: 20px;" *ngIf="tranactionHistory.length === 0 || tranactionHistory == null">
+      No Data
+    </div>
   </div>
 </div>

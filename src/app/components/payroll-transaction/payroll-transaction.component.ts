@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { DatasharingService } from '../../services/datasharing.service';
@@ -19,6 +21,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
   styleUrl: './payroll-transaction.component.scss',
 })
 export class PayrollTransactionComponent {
+  dataNew: any;
   constructor(
     private apiService: ApiService,
     private spinner: DatasharingService,
@@ -27,10 +30,26 @@ export class PayrollTransactionComponent {
 
   dcmsForm = new FormGroup({
     searchNum: new FormControl('', Validators.required),
-    Amount: new FormControl('', Validators.required),
-  });
+    Amount: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[1-9][0-9]*$/) ,
+      this.maxAmountValidatorFactory() // Ensures only numbers, no leading zero, no 0 itself
+    ]),  });
 
   payRollData: any;
+
+  ngOnInit(): void {
+    this.dataNew = sessionStorage.getItem('WalletAmount');
+
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.dcmsForm.get('Amount')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[1-9][0-9]*$/),
+      this.maxAmountValidatorFactory()
+    ]);
+    this.dcmsForm.get('Amount')?.updateValueAndValidity(); // Refresh validation
+  }
   search() {
     this.spinner.show();
     this.apiService
@@ -54,6 +73,8 @@ export class PayrollTransactionComponent {
         },
       });
   }
+  get Amount() { return this.dcmsForm.get('Amount'); }
+
   profileId!: number;
   receiverId!: number;
   onSubmit(): void {
@@ -100,5 +121,20 @@ export class PayrollTransactionComponent {
         this.spinner.hide();
       },
     });
+  }
+
+  maxAmountValidatorFactory() {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = Number(control.value);
+      return value > this.dataNew ? { maxAmount: true } : null;
+    };
+  }
+  validateAmount(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    
+    // Allow only numbers (48-57 are ASCII codes for 0-9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
   }
 }
