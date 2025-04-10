@@ -36,7 +36,7 @@
     "changeOrigin": true
   },
   "*": {
-    "target": "http://localhost:4100",
+    "target": "https://agent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   }, 

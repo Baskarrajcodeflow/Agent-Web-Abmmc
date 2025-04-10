@@ -15,12 +15,19 @@ import { ApiService } from '../../ApiService/api.service';
 import { AuthServices } from '../../core/authservice.service';
 import { SignupComponent } from '../signup/signup.component';
 import { DatasharingService } from '../../services/datasharing.service';
-import { SpinnerComponent } from "../spinner/spinner.component";
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule, SignupComponent, SpinnerComponent,ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    FormsModule,
+    SignupComponent,
+    SpinnerComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -35,8 +42,12 @@ export class LoginComponent {
   email: string = '';
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  currentView: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword' | 'OTP' =
-    'login';
+  currentView:
+    | 'login'
+    | 'forgotPassword'
+    | 'otpVerification'
+    | 'newPassword'
+    | 'OTP' = 'login';
   result: any;
   key: any;
   salt: any;
@@ -51,7 +62,6 @@ export class LoginComponent {
   oldpassword: any;
   newPassword: any;
   otpForm!: FormGroup;
-  
 
   constructor(
     private sharedService: SharedService,
@@ -65,17 +75,15 @@ export class LoginComponent {
     private spinner: DatasharingService
   ) {
     this.dataSharing.setCondition$.subscribe((res) => {
-      if(res){
+      if (res) {
         this.value = res;
       }
       console.log('Login Component - Value:', this.value);
     });
-
   }
   ngOnInit() {
     this.key = 'DAdHr3nBFT@hR3QdRK!XwAgA*M!mBB7Qso2J^4dHAN0tAIZg7A';
     this.salt = 'f9Nj*7ZjK!5qJiV@*bIC%5b$7305EDAeZRYy8PYa95!9&ur50';
-   
 
     this.otpForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -143,71 +151,89 @@ export class LoginComponent {
   passwords: any = null;
   otpDigits: string[] = ['', '', '', '', '', ''];
   otpError: string = '';
-  isLoading:boolean = false
+  isLoading: boolean = false;
   moveToNext(index: number, event: any) {
     if (event.target.value.length === 1 && index < 5) {
       event.target.nextElementSibling?.focus();
     }
   }
-  login(event:any) {
-    sessionStorage.clear()
+  login(event: any) {
+    sessionStorage.clear();
     this.credentials.username = this.username;
     this.credentials.password = this.passwords;
 
     let body = {
-      emailOrPhone:this.username,
-      password:this.password,
-      userType:'AGENT'
-    }
-    this.isLoading = true
+      emailOrPhone: this.username,
+      password: this.password,
+      userType: 'AGENT',
+    };
+    this.isLoading = true;
     this.apiService.generate(body).subscribe({
-      next:(res)=>{
+      next: (res) => {
         console.log(res);
-        if(res?.responseCode == 200){
-         this.isLoading = false
-          if(event == 0){
+        if (res?.responseCode == 200) {
+          this.isLoading = false;
+          if (event == 0) {
             alert('OTP has been sent to your email. Please verify.');
-          }else if(event == 1){
-          this.otpDigits = ['', '', '', '', '', ''];      
+          } else if (event == 1) {
+            this.otpDigits = ['', '', '', '', '', ''];
             alert('OTP has been resent to your email. Please verify.');
           }
-        this.currentView = 'OTP'
-        }else{
-         this.isLoading = false
-          this.otpDigits = ['', '', '', '', '', ''];      
-          alert(res?.error)
+          this.currentView = 'OTP';
+        } else {
+          this.isLoading = false;
+          this.otpDigits = ['', '', '', '', '', ''];
+          alert(res?.error);
         }
-      },error:()=>{
-        this.isLoading = false
-        alert('Something Went Wrong')
-      }
-    })
-
-   
+      },
+      error: () => {
+        this.isLoading = false;
+        alert('Something Went Wrong');
+      },
+    });
   }
 
-  loginNew(){
+  loginNew() {
     this.credentials.username = this.username;
     this.credentials.password = this.passwords;
     const otp = this.otpDigits.join('');
 
-    this.authService.login(this.username, this.password,otp).subscribe({
+    this.authService.login(this.username, this.password, otp).subscribe({
       next: (v: any) => {
         console.log(v);
         if (v?.responseCode == 200 || v?.responseCode == 2) {
-          alert('Success');
-          this.router.navigateByUrl('/dashboard');
-          this.dataSharing.loginSignUp(true);
-          this.dataSharing.setheaderSignUp(true);
-          sessionStorage.setItem('header',JSON.stringify(true))
           let token = v?.token;
           const helper = new JwtHelperService();
           let decodedToken = helper.decodeToken(JSON.stringify(token));
-          console.log(decodedToken);
-          sessionStorage.setItem('UserId', decodedToken?.userId);
-          this.getProfileData();
-        }
-         else {
+          if (decodedToken?.iat) {
+            const decodedTime = decodedToken.iat * 1000; // Convert from seconds to milliseconds
+            const currentTime = Date.now(); // Current time in milliseconds
+
+            console.log(new Date(decodedTime), 'Decoded Time');
+            console.log(new Date(currentTime), 'Current Time');
+
+            const timeDifference = (currentTime - decodedTime) / 1000; // Convert to seconds
+
+            if (timeDifference <= 60) {
+              alert('Success');
+              this.router.navigateByUrl('/dashboard');
+              this.dataSharing.loginSignUp(true);
+              this.dataSharing.setheaderSignUp(true);
+              sessionStorage.setItem('header', JSON.stringify(true));
+              sessionStorage.setItem('UserId', decodedToken?.userId);
+              this.getProfileData();
+            } else {
+              // alert('Invalid Token!!!');
+              sessionStorage.clear();
+              setTimeout(() => {
+                window.location.reload();
+              }, 50);
+              // console.log('❌ Token is older than 30 seconds.');
+            }
+          } else {
+            console.log("⚠️ Invalid token or missing 'iat' field.");
+          }
+        } else {
           alert(v?.message);
           // alert(v?.message);
         }
@@ -222,37 +248,32 @@ export class LoginComponent {
         'profileWalletNo',
         res?.data?.walletAccount?.walletNo
       );
-      sessionStorage.setItem(
-        'userType',
-        res?.data?.userType
-      );
-      sessionStorage.setItem(
-        'agentType',
-        res?.data?.agentType
-      );
-      this.dataSharing.kycSignUp(res?.data)
-      this.dataSharing.agentTypeSignUp(res?.data?.agentType)
+      this.dataSharing.walletNoData(res?.data);
+      sessionStorage.setItem('userType', res?.data?.userType);
+      sessionStorage.setItem('agentType', res?.data?.agentType);
+      sessionStorage.setItem('email', res?.data?.email);
+      this.dataSharing.kycSignUp(res?.data);
+      this.dataSharing.agentTypeSignUp(res?.data?.agentType);
       this.apiService
         .getPayFromAccountDetails(res?.data?.walletAccount?.walletNo)
         .subscribe((res) => {
           console.log(res);
           sessionStorage.setItem('WalletAmount', res?.data);
-          this.dataSharing.currentBalanceData(res?.data)
+          this.dataSharing.currentBalanceData(res?.data);
         });
     });
   }
-  openModal :boolean = true;
+  openModal: boolean = true;
 
-  otp:any
-  value:any = true
-  closeModal(){
+  otp: any;
+  value: any = true;
+  closeModal() {
     this.openModal = false;
-
   }
 
-  gotoSignUp(v:any){
+  gotoSignUp(v: any) {
     console.log(v);
-    this.value = v
+    this.value = v;
     // this.currentView = 'signUp'
   }
 
@@ -269,41 +290,38 @@ export class LoginComponent {
     this.currentView = view;
   }
 
-
-  
   pwdReset() {
     let body = {
       email: this.email,
       password: this.newPassword,
     };
     console.log(body);
-    
-    this.dataSharing.show()
-    this.apiServic.forgotPwd(body).subscribe((res)=>{
-      if(res?.responseCode == 200){
-        alert('Password Reset Successful')
-        this.spinner.hide()
+
+    this.dataSharing.show();
+    this.apiServic.forgotPwd(body).subscribe((res) => {
+      if (res?.responseCode == 200) {
+        alert('Password Reset Successful');
+        this.spinner.hide();
         // this.otpVerify = false
         this.resetPwdData = false;
         // this.resetPwd = false;
         setTimeout(() => {
-          this.value = true
+          this.value = true;
           this.currentView = 'login';
-          console.log("Current View after password reset:", this.currentView);
+          console.log('Current View after password reset:', this.currentView);
           // this.cdr.detectChanges();
-        }, 0); 
-      }else{
-        this.spinner.hide()
-        alert('Error Try Again')
+        }, 0);
+      } else {
+        this.spinner.hide();
+        alert('Error Try Again');
       }
-    })
+    });
   }
 
-
-  data:any = true
-  resetPwdData:any= false
+  data: any = true;
+  resetPwdData: any = false;
   resetPwd: boolean = true;
-  loginformData:boolean = true
+  loginformData: boolean = true;
   sendOtp() {
     let body = {
       email: this.email,
@@ -314,9 +332,9 @@ export class LoginComponent {
         this.spinner.hide();
         this.otpVerify = false;
         this.resetPwd = false;
-        this.loginformData = false
-        this.otpVerify = true
-        this.value = false
+        this.loginformData = false;
+        this.otpVerify = true;
+        this.value = false;
         alert('OTP has sent to your mail');
       } else {
         this.spinner.hide();
@@ -335,11 +353,11 @@ export class LoginComponent {
       console.log(res);
       if (res?.responseCode == 200) {
         this.resetPwdData = true;
-        this.otpVerify = false
-        this.resetPwdData = true
+        this.otpVerify = false;
+        this.resetPwdData = true;
         // this.loginformData = false
 
-        this.spinner.hide()
+        this.spinner.hide();
         alert('OTP Verified Successfully');
       } else {
         alert(res?.error);

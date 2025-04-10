@@ -547,5 +547,14 @@ public generate(body: any) {
   console.log(h);
   return this.http.post<any>(url, body, { headers: h });
 }
-
+public topUpRecharge(data: any) {
+  let url = `${environment.apiUrl}/tms/api/tms/router/basic`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.post(url, data, {
+    headers: h,
+  });
+}
 }

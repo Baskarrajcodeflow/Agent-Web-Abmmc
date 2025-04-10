@@ -50,7 +50,12 @@ export class DataSharingService {
     this.currentBalance.next(event);
   }
 
-  
+  private walletNo = new BehaviorSubject<boolean>(false);
+  walletNo$ = this.walletNo.asObservable();
+
+  walletNoData(event:any) {
+    this.walletNo.next(event);
+  }
   private loginUrl = new BehaviorSubject<any>(null);
   loginUrl$ = this.loginUrl.asObservable();
 

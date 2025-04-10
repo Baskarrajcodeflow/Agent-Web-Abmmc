@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardComponent {
   walletAmount:any
+  walletNo: any;
   constructor(private router : Router,
     private dataSharing: DataSharingService,
 
@@ -20,8 +21,14 @@ export class DashboardComponent {
     this.dataSharing.currentBalance$.subscribe((res)=>{
       if(res){
         this.walletAmount = res
-        this.walletAmount = sessionStorage.getItem('WalletAmount')
       }
+      this.walletAmount = sessionStorage.getItem('WalletAmount')
+    })
+    this.dataSharing.walletNo$.subscribe((res)=>{
+      if(res){
+        this.walletNo = res
+      }
+      this.walletNo = sessionStorage.getItem('profileWalletNo')
     })
   }
 

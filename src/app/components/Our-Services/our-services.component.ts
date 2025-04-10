@@ -31,7 +31,12 @@ export class OurServicesComponent {
   transactionHistory(){
     this.router.navigateByUrl('/transactionHistory' );
   }
-
+  pushPull(){
+    this.router.navigateByUrl('/pushpull' );
+  }
+  airtimeTopup(){
+    this.router.navigateByUrl('/topUp' );
+  }
   gotoBranchAddress(){
     this.router.navigate(['/branches']);
   }

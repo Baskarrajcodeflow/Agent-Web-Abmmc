@@ -26,6 +26,8 @@ import { CreateDirectAgentComponent } from './components/create-direct-agent/cre
 import { CustomerSignupComponent } from './components/customer-signup/customer-signup.component';
 import { MerchantSignupComponent } from './components/merchant-signup/merchant-signup.component';
 import { MicroMerchantSignupComponent } from './components/micro-merchant-signup/micro-merchant-signup.component';
+import { PushPullMoneyComponent } from './components/wallet-management/push-pull-money/push-pull-money.component';
+import { TopUpRechargeComponent } from './components/top-up-recharge/top-up-recharge.component';
 
 export const routes: Routes = [
     {
@@ -97,6 +99,9 @@ export const routes: Routes = [
     {
         path : 'home', component : HomeComponent 
     },
+  { path: 'pushpull', component: PushPullMoneyComponent },
+  { path: 'topUp', component: TopUpRechargeComponent },
+
     { path: '**', redirectTo: 'b2a/home', pathMatch: 'full' },
 
 ];
