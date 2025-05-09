@@ -252,7 +252,7 @@ export class TransactionHistoryComponent implements OnInit {
     const dialogRef = this.dialog.open(TransactionDialogComponent, {
       data: responseData,
       maxWidth: '500px',
-      width: '450px',
+      width: '300px',
       disableClose:true
     });
   }
@@ -325,6 +325,21 @@ export class TransactionHistoryComponent implements OnInit {
         `Statement Period: ${fromDate} to ${toDate}`,
         startX,
         startY + 2 * lineSpacing
+      );
+      doc.text(
+        `User Name: ${sessionStorage.getItem('firstname')} ${sessionStorage.getItem('lastname')}`,
+        startX,
+        startY + 4 * lineSpacing
+      );
+      doc.text(
+        `Email: ${sessionStorage.getItem('email')}`,
+        startX,
+        startY + 6 * lineSpacing
+      );
+      doc.text(
+        `User Type: ${sessionStorage.getItem('userType')}`,
+        startX,
+        startY + 8 * lineSpacing
       );
     };
 
@@ -420,6 +435,15 @@ export class TransactionHistoryComponent implements OnInit {
       ],
       [
         `Statement Period: ${this.transactionHitoryForm.controls['fromDate'].value} to ${this.transactionHitoryForm.controls['toDate'].value}`,
+      ],
+      [
+        `User Name: ${sessionStorage.getItem('firstname')} ${sessionStorage.getItem('lastname')}`,
+      ],
+      [
+        `Email: ${sessionStorage.getItem('email')}`,
+      ],
+      [
+        `User Type: ${sessionStorage.getItem('userType')}`,
       ],
       [],
     ];
@@ -536,6 +560,15 @@ export class TransactionHistoryComponent implements OnInit {
       ['Airtime Time-Topup Report'],
       [
         `Statement Period: ${this.transactionHitoryForm.controls['fromDate'].value} to ${this.transactionHitoryForm.controls['toDate'].value}`,
+      ],
+      [
+        `User Name: ${sessionStorage.getItem('firstname')} ${sessionStorage.getItem('lastname')}`,
+      ],
+      [
+        `Email: ${sessionStorage.getItem('email')}`,
+      ],
+      [
+        `User Type: ${sessionStorage.getItem('userType')}`,
       ],
       [],
     ];

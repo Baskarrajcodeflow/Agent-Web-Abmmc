@@ -183,7 +183,11 @@ export class LoginComponent {
         } else {
           this.isLoading = false;
           this.otpDigits = ['', '', '', '', '', ''];
-          alert(res?.error);
+          if(res?.error){
+            alert(res?.error);
+          }else if(res?.data){
+            alert(res?.data);
+          }
         }
       },
       error: () => {
@@ -252,6 +256,10 @@ export class LoginComponent {
       sessionStorage.setItem('userType', res?.data?.userType);
       sessionStorage.setItem('agentType', res?.data?.agentType);
       sessionStorage.setItem('email', res?.data?.email);
+      sessionStorage.setItem('firstname', res?.data?.firstName);
+      sessionStorage.setItem('lastname', res?.data?.lastName);
+      sessionStorage.setItem('phoneno', res?.data?.phone);
+      sessionStorage.setItem('profileimg', res?.data?.profilePic);
       this.dataSharing.kycSignUp(res?.data);
       this.dataSharing.agentTypeSignUp(res?.data?.agentType);
       this.apiService
@@ -294,6 +302,8 @@ export class LoginComponent {
     let body = {
       email: this.email,
       password: this.newPassword,
+      userType:'AGENT',
+      otp:this.otp
     };
     console.log(body);
 
@@ -313,7 +323,7 @@ export class LoginComponent {
         }, 0);
       } else {
         this.spinner.hide();
-        alert('Error Try Again');
+        alert(res?.error);
       }
     });
   }
@@ -348,6 +358,7 @@ export class LoginComponent {
     let body = {
       email: email,
       otp: this.otp,
+      userType:'AGENT'
     };
     this.apiServic.verifyOtp(body).subscribe((res) => {
       console.log(res);

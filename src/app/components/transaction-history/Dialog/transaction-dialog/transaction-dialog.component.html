@@ -2,15 +2,100 @@
   <button mat-icon-button class="close-icon" (click)="closeDialog()">
     <mat-icon>close</mat-icon>
   </button>
-  <div class="mb-[16px] mt-[16px] pl-[20px] text-sm">
+  <!-- <div class="mb-[16px] mt-[16px] pl-[20px] text-sm">
     <div class="text-center text-1xl font-bold">Transaction Details</div>
     <div class="mt-[5px]">Transaction Id: {{data?.transNo}}</div>
     <div class="mt-[1px]">Transaction Method: {{data?.payMethod}}</div>
     <div class="mt-[1px]">Transaction Type: {{data?.transType}}</div>
     <div class="mt-[1px]">Date: {{data?.date}}</div>
-    <div class="mt-[1px]">Amount: {{data?.amount}}</div>
+    <div *ngIf="data?.debitAmount =='0.0'" class="mt-[1px]">Credit Amount: {{data?.creditAmount}}</div>
+    <div *ngIf="data?.creditAmount == '0.0'" class="mt-[1px]">Debit Amount: {{data?.debitAmount}}</div>
     <div class="mt-[1px] ">
       Description: {{data?.otherInfo}}
     </div>
-  </div>  
+  </div>   -->
+
+    <div class=" p-4 text-center text-xs">
+      <!-- Logo -->
+      <div class="mb-3">
+        <img src="../../../../../assets/images/logo.png" alt="Logo" class="mx-auto w-24" />
+      </div>
+  
+      <!-- Transaction Header -->
+      <h2 class="text-blue-500 font-bold text-sm mb-1">Transaction Details</h2>
+      <h3 class="text-black font-semibold text-xs mb-3">Status</h3>
+  
+      <!-- Transaction Info -->
+      <div class="text-center space-y-1.5">
+        <p><span class="font-semibold">Type :</span> {{data?.transType}}</p>
+        <p><span class="font-semibold">Transaction ID :</span> {{data?.transNo}}</p>
+        <p *ngIf="data?.debitAmount =='0.0'"><span class="font-semibold">Credit Amount :</span> {{data?.creditAmount}} AFN</p>
+        <p *ngIf="data?.creditAmount =='0.0'"><span class="font-semibold">Debit Amount :</span> {{data?.debitAmount}} AFN</p>
+        <p><span class="font-semibold">Payment Method :</span> {{data?.payMethod}}</p>
+        <p><span class="font-semibold">Date :</span> {{data?.date}}</p>
+        <p >
+        {{data?.otherInfo}}
+        </p>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="mt-4 flex gap-2">
+        <button (click)="downloadPDF()" class="w-full bg-[rgb(244,122,32)] hover:bg-[rgb(230,100,20)]  text-white  py-1.5 rounded text-xs">Download</button>
+        <button (click)="sharePDF()" class="w-full bg-[#226ba6] hover:bg-[#2a5071] text-white  py-1.5 rounded text-xs">SHARE RECEIPT</button>
+      </div>
+    </div>
+  
 </div>
+
+
+<!-- receipt.component.html -->
+<div #receiptContent style="position: absolute; left: -9999px;" class="receipt-container">
+  <div class="header">
+    <img src="../../../../../assets/images/receipt.png" class="logo" />
+    <h3 style="color: white;">Receipt</h3>
+  </div>
+
+  <div class="body">
+    <img src="../../../../../assets/images/logo.png" class="logo" />
+
+    <div class="row space-between">
+      <div>
+        <strong>Billed By</strong><br />
+        {{firstName}} {{lastname}}<br />
+        {{accountNo}}
+      </div>
+      <div>
+        <strong>Billed Date</strong><br />
+        {{data?.date}}
+            </div>
+    </div>
+
+    <div class="section w-40">
+      <strong>Billed Details</strong><br />
+      {{data?.otherInfo}}
+    </div>
+
+    <div class="service-box">
+      <div class="row space-between">
+        <div><strong>Service</strong></div>
+        <div><strong>Amount</strong></div>
+      </div>
+      <div class="row space-between">
+        <div style="font-size: 12px;">{{data?.serviceName}}</div>&nbsp;
+        <div  *ngIf="data?.debitAmount =='0.0'">CREDIT {{data?.creditAmount}} AFN</div>
+        <div  *ngIf="data?.creditAmount =='0.0'">DEBIT {{data?.debitAmount}} AFN</div>
+      </div>
+    </div>
+
+    <div class="total-row">
+      <div><strong>Amount Total</strong></div>
+      <div  *ngIf="data?.debitAmount =='0.0'"><strong>{{data?.creditAmount}} AFN</strong></div>
+      <div *ngIf="data?.creditAmount == '0.0'"><strong>{{data?.debitAmount}} AFN</strong></div>
+    </div>
+
+    <div class="footer">
+      Ref No : Transaction Id : {{data?.transNo}}
+    </div>
+  </div>
+</div>
+

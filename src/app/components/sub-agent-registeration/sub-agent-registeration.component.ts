@@ -24,23 +24,14 @@ export class SubAgentRegisterationComponent {
    provinces: any;
    districts: any;
    identityDetailsForm!: FormGroup<{
-     customerFirstName: FormControl<string | null>;
-     customerLastName: FormControl<string | null>;
-     customerFatherName: FormControl<string | null>;
-     customerDOB: FormControl<string | null>;
-     customerGender: FormControl<string | null>;
-     customerMaritialStatus: FormControl<string | null>;
-     customerEmail: FormControl<string | null>;
-     customerAlternatePhone: FormControl<string | null>;
-     customerNationality: FormControl<string | null>;
-     customerBirthCountry: FormControl<string | null>;
-     customerBirthProvince: FormControl<string | null>;
-     employmentType: FormControl<string | null>;
-     idType: FormControl<string | null>;
-     phone: FormControl<string | null>;
-     password: FormControl<string | null>;
-   }>;
- 
+        customerFirstName: FormControl<string | null>;
+        customerLastName: FormControl<string | null>;
+        customerGender: FormControl<string | null>;
+        customerEmail: FormControl<string | null>;
+        phone: FormControl<string | null>;
+        password: FormControl<string | null>;
+      }>;
+
    addressDetailsForm!: FormGroup<{
      currentLocation: FormControl<string | null>;
      currentDistrict: FormControl<string | null>;
@@ -109,43 +100,30 @@ export class SubAgentRegisterationComponent {
      });
    }
    initForm() {
-     this.identityDetailsForm = this.fb.group({
-       customerFirstName: [
-         '',
-         [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
-       ],
-       customerLastName: [
-         '',
-         [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
-       ],
-       customerFatherName: [
-         '',
-         [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
-       ],
-       //customerMMWallet : ['', Validators.required],
-       customerDOB: ['', [Validators.required, this.ageValidator()]],
-       customerGender: ['', Validators.required],
-       customerMaritialStatus: ['', Validators.required],
- 
-       customerEmail: [
-         '',
-         [
-           Validators.required,
-           Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'),
-         ],
-       ],
-       customerAlternatePhone: [
-         '',
-         [Validators.required, Validators.pattern(/.*(7\d{8})$/)],
-       ],
-       customerNationality: ['', Validators.required],
-       customerBirthCountry: ['', Validators.required],
-       customerBirthProvince: ['', Validators.required],
-       employmentType: ['', Validators.required],
-       idType: ['', Validators.required],
-       phone: ['', [Validators.required, Validators.pattern(/.*(7\d{8})$/)]],
-       password: ['', Validators.required],
-     });
+      this.identityDetailsForm = this.fb.group({
+            customerFirstName: [
+              '',
+              [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+            ],
+            customerLastName: [
+              '',
+              [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+            ],
+       
+            //customerMMWallet : ['', Validators.required],
+            customerGender: ['', Validators.required],
+       
+            customerEmail: [
+              '',
+              [
+                Validators.required,
+                Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'),
+              ],
+            ],
+            phone: ['', [Validators.required, Validators.pattern(/.*(7\d{8})$/)]],
+            password: ['', Validators.required],
+           
+          });
  
      this.addressDetailsForm = this.fb.group({
        currentLocation: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
@@ -191,6 +169,8 @@ export class SubAgentRegisterationComponent {
      this.isPasswordVisible = !this.isPasswordVisible;
    }
    createPayload() {
+    console.log(this.identityDetailsForm.invalid);
+    
      let email = this.identityDetailsForm.controls['customerEmail'].value;
      let body = {
        email: email,
@@ -226,18 +206,7 @@ export class SubAgentRegisterationComponent {
          alert('Something Went Wrong!!!');
        },
      });
-    //  this.apiService.verifyOtp(body).subscribe({
-    //    next: (res) => {
-    //      if (res?.responseCode == 200) {
-    //        this.isLoading = true;
-    //      } else {
-    //        this.isLoading = false;
-    //        alert(res?.error);
-    //      }
-    //    },
-    //    error: () => {
-    //      alert('Error Try Again');
-    //    },
+ 
     //  });
    }
    sendOtp() {
@@ -262,7 +231,61 @@ export class SubAgentRegisterationComponent {
    // gotoLogin() {
    //   this.dataSgaring.corpKycData(false);
    // }
-
+   phoneError: string | null = null;
+   emailError: string | null = null;
+     checkPhoneExistence() {
+       const phone = this.identityDetailsForm.get('phone')?.value;
+   
+       if (phone) {
+         this.apiService.checkPhoneExist(phone).subscribe(
+           (response: any) => {
+             if (response && response.data) {
+               // Check if email matches any record with user type 'CUSTOMER'
+               const customerMatch = response.data.length > 0
+   
+               if (customerMatch) {
+                 this.phoneError = 'Phone number is already registered.';
+               } else {
+                 this.phoneError = null; // Clear the error message if no match is found
+               }
+             }
+           },
+           (error) => {
+             console.error('Error checking phone existence:', error);
+           }
+         );
+       }
+     }
+ 
+     checkEmailExistence() {
+       const email = this.identityDetailsForm.get('customerEmail')?.value;
+   
+       if (email) {
+         this.apiService.checkEmailExist(email).subscribe(
+           (response: any) => {
+             if (response && response.data) {
+               // Check if email matches any record with user type 'CUSTOMER'
+               const customerMatch = response.data.length > 0
+   
+               if (customerMatch) {
+                 this.emailError = 'Email is already registered.';
+               } else {
+                 this.emailError = null; // Clear the error message if no match is found
+               }
+             }
+           },
+           (error) => {
+             console.error('Error checking email existence:', error);
+           }
+         );
+       }
+     }
+     validateNumberInput(event: KeyboardEvent) {
+          const charCode = event.which ? event.which : event.keyCode;
+          if (charCode < 48 || charCode > 57) {
+            event.preventDefault();
+          }
+        }
    cancel(){
     this.router.navigateByUrl('/howtobecome')
   }

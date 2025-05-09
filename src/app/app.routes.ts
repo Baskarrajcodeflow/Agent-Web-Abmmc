@@ -28,6 +28,7 @@ import { MerchantSignupComponent } from './components/merchant-signup/merchant-s
 import { MicroMerchantSignupComponent } from './components/micro-merchant-signup/micro-merchant-signup.component';
 import { PushPullMoneyComponent } from './components/wallet-management/push-pull-money/push-pull-money.component';
 import { TopUpRechargeComponent } from './components/top-up-recharge/top-up-recharge.component';
+import { ListUsersComponent } from './components/list-users/list-users.component';
 
 export const routes: Routes = [
     {
@@ -95,6 +96,9 @@ export const routes: Routes = [
     },
     {
         path : 'payroll', component : PayrollTransactionComponent 
+    },
+    {
+        path : 'listUsers', component : ListUsersComponent 
     },
     {
         path : 'home', component : HomeComponent 

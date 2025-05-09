@@ -20,6 +20,7 @@
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "baseHref": "/web/",
             "polyfills": [
               "zone.js"
             ],
@@ -29,7 +30,8 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [              
+            "styles": [       
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",       
               "src/styles.scss",             
               "src/assets/themes/default-theme.css"
             ],

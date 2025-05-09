@@ -77,7 +77,12 @@ export class DataSharingService {
       }
     }
   }
+  private profilepic = new BehaviorSubject<any>(null);
+  profilepic$ = this.profilepic.asObservable();
 
+  setprofilepicData(currency: any) {
+    this.profilepic.next(currency);
+  }
   loginSignUp(isLoggedIn: boolean) {
     if (this.isBrowser) {
       this.login.next(isLoggedIn);

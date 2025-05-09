@@ -60,17 +60,163 @@
       <a (click)="navigate('/pushpull')"class=" btn text-sm font-semibold leading-7 header-titles"> Link Account
       </a>
       <a (click)="navigate('/PayBills')" class="btn text-sm leading-7 header-titles">Pay Bills</a>
+      <a (click)="navigate('/listUsers')" class="btn text-sm leading-7 header-titles">List Users</a>
       <!-- <a href="#" class="btn text-sm font-semibold leading-7 header-titles">Branch Address</a> -->
+
+    
     </div>
-    <div *ngIf="showHeader || showHeaderData"  class="hidden lg:flex lg:flex-1 lg:justify-end">
+    <!-- <div *ngIf="showHeader || showHeaderData"  class="hidden lg:flex lg:flex-1 lg:justify-end">
       <button
         class="border border-indigo-400 mr-4 hover:button-primary-light text-[#130067] font-sm py-2 px-4 rounded-md inline-flex items-center"
         (click)="logout()">
        Logout
       </button>
 
-    </div>
+    </div> -->
+    <div *ngIf="showHeader || showHeaderData" class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <div class="relative">
+        <div class="flex items-center">
+          <button
+            (click)="showDropdownUser()"
+            class="btn mr-4 text-sm font-semibold leading-7 text-gray-800 inline-flex items-center gap-2"
+          >
+            <span class="material-icons">account_circle</span>
+            <span class="material-icons">expand_more</span>
+          </button>
+    
+          <!-- Dropdown Menu -->
+          <div
+            *ngIf="showUser"
+            class="absolute right-0 top-full z-10 mt-2 w-96 rounded-3xl shadow-2xl px-8 py-6 bg-white text-center border border-gray-200"
+          >
+            <!-- Profile Image -->
+            <div class="flex justify-center mb-4">
+              <img src="{{imageUrl}}/um/static/profile/{{img}}" alt="Profile" class="w-16 h-16 rounded-full mr-4">
+            </div>
+    
+            <!-- Greeting -->
+            <h2 class="text-xl font-semibold text-[#226ba6] mb-4">Hi, {{ firstName }} {{ lastName }}!</h2>
+    
+            <!-- Info Box -->
+            <div *ngIf="!changePwd" class="bg-gray-50 rounded-xl shadow p-4 text-left text-sm space-y-4 mb-4">
+              <!-- Role -->
+           
+    
+              <!-- Email -->
+              <div class="flex items-center">
+                <span class="material-icons text-[#226ba6] mr-2">email</span>
+                <span class="font-semibold">Email:</span>&nbsp;{{ email }}
+              </div>
+              <div class="flex items-center">
+                <span class="material-icons text-[#226ba6] mr-2">phone</span>
+                <span class="font-semibold">Phone:</span>&nbsp;{{ phone }}
+              </div>
+              <!-- Corporate Type -->
+              <div class="flex items-center">
+                <span class="material-icons text-[#226ba6] mr-2">business</span>
+                <span class="font-semibold">User Type:</span>&nbsp;{{ type }}
+              </div>
+           
+              
+              <!-- Profile Picture Upload -->
+              <div>
+                <div class="flex items-center mb-2">
+                  <span class="material-icons text-[#226ba6] mr-2">upload</span>
+                  <span class="font-semibold">Profile Picture:</span>
+                </div>
+                <input
+                (change)="onFileSelectedForProfile($event)"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-4 file:border-0 file:rounded-full file:text-sm file:font-semibold file:bg-blue-50 file:text-[#226ba6] hover:file:bg-blue-100"
+                />
+                <p class="text-xs text-gray-400 mt-1">Accepted File Format (PNG, JPEG, JPG)</p>
+              </div>
+              <div class="inline-flex items-center mb-4 text-[#226ba6] font-semibold text-sm rounded-full cursor-pointer ">
+                <span class="material-icons text-[#226ba6] mr-2">vpn_key</span>
+               <span (click)="changePass()" class="hover:text-gray-500"> Change Password</span>
+              </div>
+            </div>
 
+            <!-- Change Password Section -->
+<div class="mt-4" *ngIf="changePwd">
+  <h3 class="text-sm font-semibold text-gray-700 mb-2 text-left">Change Password</h3>
+  <div  class="space-y-2 text-left">
+    <div>
+      <input
+      [type]="showCurrPwd ? 'text' : 'password'"
+      (keypress)="validateNumberInput($event)"
+        type="password"
+        [(ngModel)]="currPwd"
+        placeholder="Current Password"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+      />
+      <button type="button" (click)="showCurrPwd = !showCurrPwd" class="absolute right-[2.5rem] top-[11.4rem] text-gray-600">
+        <i [ngClass]="showCurrPwd ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+      </button>
+    </div>
+    <div>
+      <input
+      [type]="showNewPwd ? 'text' : 'password'"
+      (keypress)="validateNumberInput($event)"
+        type="password"
+        [(ngModel)]="newPwd"
+        placeholder="New Password"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+      />
+      <button type="button" (click)="showNewPwd = !showNewPwd" class="absolute right-[2.5rem] top-[14.4rem] text-gray-600">
+        <i [ngClass]="showNewPwd ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+      </button>
+    </div>
+    <div>
+      <input
+      [type]="showConfirmPwd ? 'text' : 'password'"
+      (keypress)="validateNumberInput($event)"
+        type="password"
+        [(ngModel)]="confirmPwd"
+        placeholder="Confirm Password"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+      />
+      <button type="button" (click)="showConfirmPwd = !showConfirmPwd" class="absolute right-[2.5rem] top-[17.4rem] text-gray-600">
+        <i [ngClass]="showConfirmPwd ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+      </button>
+    </div>
+    <div *ngIf="newPwd && confirmPwd && newPwd !== confirmPwd" class="text-red-500 text-sm mt-1">
+      Passwords do not match.
+    </div>
+   <div class="flex gap-2">
+    <button
+    (click)="change()"
+      class="w-full font-medium bg-[#e54843] hover:bg-[#ca3e3e] text-white py-2 rounded-md  text-sm"
+    >
+      Cancel
+    </button>
+    <button
+    [disabled]="!currPwd || !newPwd || !confirmPwd"
+    (click)="changePwdData()"
+      class="w-full font-medium bg-[#226ba6] hover:bg-[#2a5071] text-white py-2 rounded-md  text-sm"
+    >
+      Update Password
+    </button>
+   </div>
+  </div>
+</div>
+
+    
+            <!-- Sign Out -->
+            <button *ngIf="!changePwd"
+              (click)="logout()"
+              class="w-full bg-gradient-to-r from-blue-600 to-[#226ba6] text-white hover:from-[#226ba6] hover:to-[#48a4ef] rounded-full py-2 font-medium shadow-md"
+            >
+              Sign out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
   </nav>
  
 </header>
@@ -258,3 +404,5 @@
     </div>
   </div> -->
 </header>
+
+<app-loader *ngIf="isLoading"></app-loader>

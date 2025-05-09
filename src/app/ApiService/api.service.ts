@@ -177,7 +177,7 @@ export class ApiService {
   
 
   public b2bSignIp(body: any) {
-    let url = `${environment.apiUrl}/um/api/agent/signUpForAgent`;
+    let url = `${environment.apiUrl}/um/api/agent/registerInDirectAgent`;
     let h: HttpHeaders = this.getHeaders().set(
       'Content-Type',
       'application/json'
@@ -556,5 +556,47 @@ public topUpRecharge(data: any) {
   return this.http.post(url, data, {
     headers: h,
   });
+}
+
+public submitCorporateProfilePic(fileToUpload: File) {
+  let h: HttpHeaders = this.getHeaders(); 
+  const formData = new FormData(); 
+  formData.append('file', fileToUpload); 
+  let url = `${environment.apiUrl}/um/api/agent/profilePic`;
+  return this.http.post<any>(url, formData, { headers: h });
+}
+
+public checkPhoneExist(phone:string) {
+  let url = `${environment.apiUrl}/um/api/app/phoneCheck?phone=`+phone;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.get<any>(url, { headers: h });
+}
+public checkEmailExist(email:string) {
+  let url = `${environment.apiUrl}/um/api/app/emailCheck?email=`+email;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.get<any>(url, { headers: h });
+}
+public ChangePinRequest (data:any) {
+  let url = `${environment.apiUrl}/um/api/pwd/update`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.post<any>(url,data, { headers: h });
+}
+
+public getSubAgentsByAgent() {
+  let url = `${environment.apiUrl}/um/api/agent/getSubAgentsByAgent`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.get<any>(url, { headers: h });
 }
 }
