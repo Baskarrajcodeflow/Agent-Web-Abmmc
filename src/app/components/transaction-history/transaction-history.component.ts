@@ -557,7 +557,7 @@ export class TransactionHistoryComponent implements OnInit {
       ['Darulaman Road, Hajiari Najari,'],
       ['KABUL, AFGHANISTAN'],
       [],
-      ['Airtime Time-Topup Report'],
+      ['Transaction History Report'],
       [
         `Statement Period: ${this.transactionHitoryForm.controls['fromDate'].value} to ${this.transactionHitoryForm.controls['toDate'].value}`,
       ],

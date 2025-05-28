@@ -1,45 +1,59 @@
-<div class="max-w-4xl mx-auto mt-6 overflow-x-auto shadow rounded-lg">
-    <table class="w-full text-sm  text-gray-800 bg-white border border-gray-200">
-      <thead class="bg-gradient-to-r from-blue-500  to-orange-400 text-white uppercase text-xs">
-          <tr>
-            <th class="p-2 font-semibold">Created Date</th>
+<div class="max-w-5xl mx-auto mt-6 shadow rounded-lg">
+  <!-- Make THIS div scrollable -->
+  <div class="overflow-x-auto max-h-[400px]">
+    <table class="w-full text-sm text-gray-800 bg-white border border-gray-200">
+      <thead class="bg-gradient-to-r from-blue-500 to-orange-400 text-white uppercase text-xs">
+        <tr>
+          <th class="p-2 font-semibold">Created Date</th>
           <th class="p-2 font-semibold">User Type</th>
           <th class="p-2 font-semibold">Name</th>
           <th class="p-2 font-semibold">Phone</th>
           <th class="p-2 font-semibold">Email</th>
-          <div class="mt-[10px]">
-            <!-- Button that triggers the menu -->
+          <th class="p-2 font-semibold">Account State</th>
+          <th class="p-2 font-semibold">Account No</th>
+          <th class="p-2 font-semibold">
             <button mat-icon-button [matMenuTriggerFor]="downloadMenu">
               <mat-icon>download</mat-icon>
             </button>
-          
-            <!-- The dropdown menu -->
             <mat-menu #downloadMenu="matMenu">
               <button mat-menu-item (click)="makePdf()">
                 <mat-icon>picture_as_pdf</mat-icon>
                 <span>Download as PDF</span>
               </button>
-              <!-- <button mat-menu-item (click)="exportToExcel()">
+              <button mat-menu-item (click)="exportToExcel()">
                 <mat-icon>table_view</mat-icon>
                 <span>Download as Excel</span>
               </button>
               <button mat-menu-item (click)="exportToCSV()">
                 <mat-icon>table_view</mat-icon>
                 <span>Download as CSV</span>
-              </button> -->
+              </button>
             </mat-menu>
-          </div>
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of listUsers" class="border-b hover:bg-gray-50 transition text-center">
-            <td class="p-2">{{ item?.createdOn | date:'medium' }}</td>
-          <td class="p-2">{{ item?.userType }}</td>
-          <td class="p-2">{{ item?.firstName }} {{item?.lastName}}</td>
+        <tr *ngFor="let item of listUsers" class="border-b hover:bg-gray-50 transition text-center font-medium">
+          <td class="p-2"><div>
+            {{ item?.createdOn | date:'MMM d, y' }} 
+          </div>
+           <div>
+            {{ item?.createdOn | date:'h:mm:ss a' }}
+           </div>
+          </td>
+          <td class="p-2">{{ item?.agentType }}</td>
+          <td class="p-2">{{ item?.firstName }} {{ item?.lastName }}</td>
           <td class="p-2">{{ item?.phone }}</td>
           <td class="p-2 text-blue-600 hover:underline">{{ item?.email }}</td>
+          <td class="p-2 text-green-600">{{ item?.accountState }}</td>
+          <td class="p-2">{{ item?.walletAccount?.accountNo }}</td>
+          <td class="p-2">
+            <!-- Optional actions for each row -->
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-  
+</div>
+
+  <app-loader *ngIf="isLoading"></app-loader>

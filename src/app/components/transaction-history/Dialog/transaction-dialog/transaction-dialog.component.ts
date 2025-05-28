@@ -43,28 +43,36 @@ export class TransactionDialogComponent implements OnInit {
   }
   async sharePDF(): Promise<void> {
     const element = this.receiptContent.nativeElement;
-
+  
     const canvas = await html2canvas(element, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
-
-    const pdf = new jsPDF('p', 'mm', [80, 200]);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-    const pdfBlob = pdf.output('blob');
-
-    const file = new File([pdfBlob], 'receipt.pdf', { type: 'application/pdf' });
-
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({
-        title: 'Receipt PDF',
-        text: 'Here is your receipt.',
-        files: [file]
-      });
-    } else {
-      alert('Sharing not supported on this device/browser.');
-    }
+  
+    canvas.toBlob(async (blob) => {
+      if (!blob || blob.size === 0) {
+        alert('Failed to generate image. Blob is empty.');
+        return;
+      }
+  
+      const file = new File([blob], 'receipt.png', { type: 'image/png' });
+  
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            title: 'Receipt Image',
+            text: 'Here is your receipt as an image.',
+            files: [file],
+          });
+        } catch (error) {
+          console.error('Sharing failed:', error);
+        }
+      } else {
+        // Optional: Fallback download
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(file);
+        link.download = 'receipt.png';
+        link.click();
+      }
+    }, 'image/png');
   }
+  
+  
 }

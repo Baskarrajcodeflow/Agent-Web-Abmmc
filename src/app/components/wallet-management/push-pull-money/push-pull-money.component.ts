@@ -191,7 +191,7 @@ description: any;
             this.description = '';
             this.amount = '';
           } else {
-            alert(response?.error);
+            alert(response?.data);
           }
       },error:()=>{
         alert('Something Went Wrong, Try Again');
