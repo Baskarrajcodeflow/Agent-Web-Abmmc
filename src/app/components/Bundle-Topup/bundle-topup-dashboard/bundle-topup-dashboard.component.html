@@ -1,0 +1,105 @@
+<div class="flex items-center justify-center min-h-screen p-10 bg-gradient-to-r from-blue-50 to-indigo-50 font-sans">
+  <div class="bg-white/60 backdrop-blur-md rounded-2xl shadow-xl p-6 w-full max-w-lg border border-gray-200">
+    <div class="bg-white shadow-md rounded-xl p-6 w-full max-w-md mx-auto">
+      <div class="flex items-center space-x-2 mb-6">
+        <button class="text-gray-700 text-xl">&#8592;</button>
+        <h1 class="text-lg font-semibold text-gray-800">Buy AirTime</h1>
+      </div>
+
+      <!-- <div class="mb-4">
+        <select class="w-full p-3 rounded-lg border border-gray-300 text-gray-700 bg-white">
+          <option>MyMoney Wallet : {{walletBalance}}</option>
+        </select>
+      </div> -->
+      <div class="flex flex-col sm:flex-row gap-3 -mt-2 mb-1">
+        <!-- AWCC Stock -->
+        <div class="flex-1 bg-gradient-to-r from-indigo-500 to-[#4a517e] p-2 text-white text-center rounded-md text-sm  flex flex-col justify-center">
+          <div class="font-semibold">AWCC Stock Balance</div>
+          <div class="text-sm font-semibold">{{ awccStockBalance != null ? (awccStockBalance | number:'1.2-2') : 'NIL' }}
+          </div>
+        </div>
+
+        <!-- Non-AWCC Stock -->
+        <div class="flex-1 bg-gradient-to-r from-orange-400 to-orange-500 p-2 text-white text-center rounded-md text-sm  flex flex-col justify-center">
+          <div class="font-semibold">Non-AWCC Stock Balance</div>
+          <div class="text-sm font-semibold">{{ nonAwccStockBalance != null ? (nonAwccStockBalance | number:'1.2-2') : 'NIL' }}
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm text-gray-700 mb-2">Please Enter Your Mobile Number (without +93)</label>
+        <div class="flex items-center space-x-2">
+          <span class="bg-gray-200 px-3 py-2 rounded text-sm font-semibold text-gray-700">AWCC</span>
+          <input type="text" class="text-black bg-white border border-gray-300 rounded p-2 w-full focus:outline-none" [(ngModel)]="mobileNumber"
+           [ngClass]="{
+                  'border-red-800 border-r-4': validMobileNumber() === false && mobileNumber.length > 0,
+                  'border-green-800 border-r-4': validMobileNumber() === true                   
+            }"/>
+        </div>
+      </div>
+
+      <div *ngIf="!selectedBundle && validMobileNumber()" class="flex justify-between mt-6">
+        <button class="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-lg w-full mr-2"
+          (click)="onClickViewBundles()">
+          View Bundles
+        </button>        
+      </div>
+
+      <div *ngIf="!!selectedBundle" class="mt-6 text-md text-gray-600 font-semibold space-y-1">
+
+        <div class="flex justify-between items-start">
+
+
+          <div class="text-gray-500">Selected bundle Details : </div>
+          <!-- <div class="text-gray-500">Price: {{ selectedBundle?.price }} AFN</div> -->
+          <button class="text-white bg-orange-400 hover:bg-orange-500 px-4 py-1 rounded-full text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            (click)="selectedBundle = null; onClickViewBundles()" [disabled] = "validMobileNumber() === false">
+            Change Bundle
+          </button>
+        </div>
+        <div class="text-lg font-bold text-red">{{selectedBundle.name}} <span>
+            <span class="inline-block align-middle text-green-500 mr-1">
+              <!-- Example SVG currency icon (replace with your preferred icon if needed) -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 0V4m0 16v-4" />
+              </svg>
+            </span>{{selectedBundle.price}} AFN</span>
+            <div class="text-md  font-semibold text-gray-500 p-2">Data: {{ selectedBundle.normalVol }}/day</div>
+        <div class="text-md font-semiboldtext-gray-500 p-2">Validity: {{ selectedBundle.validity }} Days</div>
+          </div>
+
+
+        
+           <div class="mt-8 mb-2">
+        <label class="block text-sm text-gray-700 mb-2">Enter Transaction PIN</label>
+        <div class="flex items-center space-x-2 mb-2">          
+          <input type="text" class="text-black bg-white border border-gray-300 rounded p-2 w-full" 
+          (keypress)="validateNumberInput($event)"
+          [(ngModel)]="pin"
+          type="password"
+          [ngClass]="{
+                  'border-red-500 focus:ring-red-500': pin.length != 4,
+                  'border-green-300 focus:ring-green-300': pin.length == 4             
+            }"/>
+        </div>
+      </div>
+        
+           
+
+            <div *ngIf="pin.length == 4 && validMobileNumber()" class="flex justify-between mt-4">
+        <button class="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-lg w-full mx-4"
+          (click)="onProceedtopup()">
+          Proceed
+        </button>         
+      </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<app-loader *ngIf="isLoading"></app-loader>

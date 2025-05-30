@@ -8,13 +8,14 @@ import * as XLSX from 'xlsx-js-style';
 import saveAs from 'file-saver';
 import autoTable from 'jspdf-autotable';
 import { LoaderComponent } from "../loader/loader.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-list-users',
   standalone: true,
   imports: [CommonModule,
     MatMenuModule,
-    MatIconModule, LoaderComponent],
+    MatIconModule, LoaderComponent,FormsModule],
   providers:[DatePipe],
   templateUrl: './list-users.component.html',
   styleUrl: './list-users.component.scss'
@@ -361,5 +362,22 @@ this.isLoading = true
         // Create a Blob from the CSV data and trigger download
         const csvBlob: Blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         saveAs(csvBlob, `Self-Registration-Report.csv`);
+      }
+
+
+      isModalOpen = false;
+      userInput: string = '';
+    
+      openModal() {
+        this.isModalOpen = true;
+      }
+    
+      closeModal() {
+        this.isModalOpen = false;
+      }
+    
+      submit() {
+        console.log('Submitted text:', this.userInput);
+        this.closeModal();
       }
 }

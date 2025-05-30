@@ -19,7 +19,7 @@
       <div class="py-6 px-20">
         <div class="flex justify-center">
           <img
-            src="../../../assets/images/Money Transfer.svg"
+            src="../../../assets/images/miPayWallet.png"
             width="120px"
             height="120px"
           >
@@ -65,6 +65,34 @@
   </a>
 
   <!-- <div class="flex mx-4"> -->
+    <a
+    (click)="airtimeTopup()"
+     
+      class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
+    >
+      <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
+          <div class="py-6 px-20">
+            <div class="flex justify-center">
+              <img
+                src="../../../assets/images/E-Top Up.svg"
+                alt=""
+                width="120px"
+                height="120px"
+              />
+            </div>
+          </div>
+          <div class="pl-[30px] mb-[40px] ">
+            <p class="header-titles text-lg">Air Time Topup</p>
+            <p class="w-[220px]">
+              Mobile Wallet as virtual wallet, accessed and functioned via a
+              mobile application.
+            </p>
+          </div>
+         
+        </div>
+      </div>
+    </a>
   <a
     class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
   >
@@ -91,31 +119,7 @@
     </div>
   </a>
 
-  <a 
-  class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
->
-  <div class="flex mx-4">
-    <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
-      <div class="py-6 px-20">
-        <div class="flex justify-center">
-          <img
-            src="../../../assets/images/Third_Party_Transfer.png"
-            alt=""
-            width="120px"
-            height="120px"
-          />
-        </div>
-      </div>
-      <div class="pl-[30px] mb-[40px]">
-        <p class="header-titles text-lg">Third Party Transfer</p>
-        <p class="w-[220px]">
-          Mobile Wallet as virtual wallet, accessed and functioned via a
-          mobile application.
-        </p>
-      </div>
-    </div>
-  </div>
-</a>
+
   <!-- </div> -->
   <!-- <a
    
@@ -257,33 +261,7 @@
     </div>
   </a> -->
   <!-- </div> -->
-  <a
-(click)="airtimeTopup()"
- 
-  class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
->
-  <div class="flex mx-4">
-    <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
-      <div class="pl-[30px] mb-[40px] pt-[30px]">
-        <p class="header-titles text-lg">Air Time Topup</p>
-        <p class="w-[220px]">
-          Mobile Wallet as virtual wallet, accessed and functioned via a
-          mobile application.
-        </p>
-      </div>
-      <div class="py-6 px-20">
-        <div class="flex justify-center">
-          <img
-            src="../../../assets/images/E-Top Up.svg"
-            alt=""
-            width="120px"
-            height="120px"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</a>
+
   <a
 (click)="transactionHistory()"
     class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
@@ -352,7 +330,7 @@ class="flex justify-center transition duration-300 ease-in-out transform hover:s
     <div class="py-6 px-20">
       <div class="flex justify-center">
         <img
-          src="../../../assets/images/Transaction_History.png"
+          src="../../../assets/images/Third_Party_Transfer.png"
           alt=""
           width="120px"
           height="120px"
@@ -362,11 +340,36 @@ class="flex justify-center transition duration-300 ease-in-out transform hover:s
   </div>
 </div>
 </a>
+<a (click)="stockTransfer()" 
+class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
+>
+<div class="flex mx-4">
+  <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
+    <div class="py-6 px-20">
+      <div class="flex justify-center">
+        <img
+          src="../../../assets/images/Own_Account_number.png"
+          alt=""
+          width="120px"
+          height="120px"
+        />
+      </div>
+    </div>
+    <div (click)="stockTransfer()" class="pl-[30px] mb-[40px]">
+      <p class="header-titles text-lg">Stock Transfer</p>
+      <p class="w-[220px]">
+        Mobile Wallet as virtual wallet, accessed and functioned via a
+        mobile application.
+      </p>
+    </div>
+  </div>
+</div>
+</a>
 </div>
 
 <div class="flex justify-center py-6">
   <!-- <div class="flex mx-4"> -->
-  <a 
+  <!-- <a 
 (click)="stockPurchase('stockPurchase')"
     class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
   >
@@ -391,9 +394,9 @@ class="flex justify-center transition duration-300 ease-in-out transform hover:s
         </div>
       </div>
     </div>
-  </a>
+  </a> -->
 
-  <a 
+  <!-- <a 
   (click)="dcms('dcms')"
       class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
     >
@@ -418,34 +421,90 @@ class="flex justify-center transition duration-300 ease-in-out transform hover:s
           </div>
         </div>
       </div>
-    </a>
+    </a> -->
 
 
     <a 
     (click)="payroll('payroll')"
         class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
       >
-        <div class="flex mx-4">
-          <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
-            <div class="py-6 px-20">
-              <div class="flex justify-center">
-                <img
-                  src="../../../assets/images/Branch_Address.png"
-                  alt=""
-                  width="120px"
-                  height="120px"
-                />
-              </div>
-            </div>
-            <div class="pl-[30px] mb-[40px]">
-              <p class="header-titles text-lg">Payroll Transaction</p>
-              <p class="w-[220px]">
-                Mobile Wallet as virtual wallet, accessed and functioned via a
-                mobile application.
-              </p>
+      <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
+          <div class="pl-[30px] mb-[40px] pt-[30px]">
+            <p class="header-titles text-lg">Payroll Transaction</p>
+            <p class="w-[220px]">
+              Mobile Wallet as virtual wallet, accessed and functioned via a
+              mobile application.
+            </p>
+          </div>
+          <div class="py-6 px-20">
+            <div class="flex justify-center">
+              <img
+              src="../../../assets/images/Referel.png"
+              alt=""
+                width="120px"
+                height="120px"
+              />
             </div>
           </div>
         </div>
+      </div>
+  
+      </a>
+      <a 
+      (click)="stockPurchase('stockPurchaseNew')"
+          class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
+        >
+          <div class="flex mx-4">
+            <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
+              <div class="py-6 px-20">
+                <div class="flex justify-center">
+                  <img
+                    src="../../../assets/images/Other 07.png"
+                    alt=""
+                    width="120px"
+                    height="120px"
+                  />
+                </div>
+              </div>
+              <div class="pl-[30px] mb-[40px]">
+                <p class="header-titles text-lg">Stock Purchase</p>
+                <p class="w-[220px]">
+                  Mobile Wallet as virtual wallet, accessed and functioned via a
+                  mobile application.
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        
+    <a 
+    (click)="bundleTopup('bundleTopup')"
+        class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
+      >
+      <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
+          <div class="pl-[30px] mb-[40px] pt-[30px]">
+            <p class="header-titles text-lg">Bundle Topup</p>
+            <p class="w-[220px]">
+              Mobile Wallet as virtual wallet, accessed and functioned via a
+              mobile application.
+            </p>
+          </div>
+          <div class="py-6 px-20">
+            <div class="flex justify-center">
+              <img
+              src="../../../assets/images/Referel.png"
+              alt=""
+                width="120px"
+                height="120px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+  
       </a>
   </div>
 

@@ -11,6 +11,7 @@
           <th class="p-2 font-semibold">Email</th>
           <th class="p-2 font-semibold">Account State</th>
           <th class="p-2 font-semibold">Account No</th>
+          <th class="p-2 font-semibold">Action</th>
           <th class="p-2 font-semibold">
             <button mat-icon-button [matMenuTriggerFor]="downloadMenu">
               <mat-icon>download</mat-icon>
@@ -48,6 +49,13 @@
           <td class="p-2 text-green-600">{{ item?.accountState }}</td>
           <td class="p-2">{{ item?.walletAccount?.accountNo }}</td>
           <td class="p-2">
+            <button
+            (click)="openModal()"
+            class="w-full bg-gradient-to-r from-orange-500 to-[#f2970f] text-white text-sm font-medium py-1 px-1 rounded-xl shadow hover:bg-indigo-700 transition duration-300">
+              Transfer Stock
+            </button>
+          </td>
+          <td class="p-2">
             <!-- Optional actions for each row -->
           </td>
         </tr>
@@ -57,3 +65,55 @@
 </div>
 
   <app-loader *ngIf="isLoading"></app-loader>
+
+<!-- Modal Overlay -->
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+>
+  <!-- Modal Container -->
+  <div
+    class="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 p-6 animate-fade-in relative"
+  >
+    <!-- Close Icon -->
+    <button
+      (click)="closeModal()"
+      class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+
+    <!-- Modal Header -->
+    <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+      Provide Your Input
+    </h2>
+    <p class="text-sm text-gray-500 mb-6">
+      Please enter the required information below and submit.
+    </p>
+
+    <!-- Text Input -->
+    <input
+      type="text"
+      [(ngModel)]="userInput"
+      placeholder="Type something..."
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6"
+    />
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end space-x-4">
+      <button
+        (click)="closeModal()"
+        class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="submit()"
+        class="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>

@@ -70,4 +70,11 @@ export class OurServicesComponent {
     console.log(product);
     this.router.navigateByUrl('/payroll' );
   }
+  bundleTopup(product : string){
+    console.log(product);
+    this.router.navigateByUrl('/bundleTopup' );
+  }
+  stockTransfer(){
+    this.router.navigateByUrl('/stockTransfer' );
+  }
 }

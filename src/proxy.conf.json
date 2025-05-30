@@ -1,37 +1,37 @@
 
 {
   "/constants": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/aaa": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/kyc": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/um": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/pm": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/rmsbo": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/dcms": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
@@ -41,12 +41,12 @@
     "changeOrigin": true
   }, 
   "/ts": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/tms": {
-    "target": "https://agent.mymoney.af",
+    "target": "http://uatagent.mymoney.af",
     "secure": false,
     "changeOrigin": true
   }

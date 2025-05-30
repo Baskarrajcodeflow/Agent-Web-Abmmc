@@ -11,15 +11,19 @@ import {
 } from '@angular/forms';
 import { ApiService } from '../../ApiService/api.service';
 import { LoaderComponent } from '../loader/loader.component';
+import { StockPurchaseNewComponent } from "../Stock-Purchase-New/stock-purchase-new/stock-purchase-new.component";
 
 @Component({
   selector: 'app-top-up-recharge',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, LoaderComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, LoaderComponent, StockPurchaseNewComponent],
   templateUrl: './top-up-recharge.component.html',
   styleUrl: './top-up-recharge.component.scss',
 })
 export class TopUpRechargeComponent {
+  nonAwccStockBalance: any;
+  awccStockBalance: any;
+  
   constructor(private apiService:ApiService){}
   // Map of prefixes to service names
   serviceMap: { [key: string]: string } = {
@@ -67,6 +71,9 @@ export class TopUpRechargeComponent {
 
  
   ngOnInit(): void {
+    
+    this.getAwccBalance()
+    this.getNonAwccBalance()
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.currentBal = sessionStorage.getItem('WalletAmount');
@@ -94,6 +101,8 @@ console.log(this.currentBal);
     if (charCode < 48 || charCode > 57) {
       event.preventDefault();
     }
+
+
   }
   submit() {
     let userId = sessionStorage.getItem("SenderUserId");
@@ -132,5 +141,46 @@ console.log(this.currentBal);
         alert('Something Went Wrong');
       },
     })
+  }
+
+  activeTab: number = 1;
+  setActiveTab(tabNumber: number) {
+    this.activeTab = tabNumber;
+  }
+
+  getAwccBalance() {
+    let accountNo: any = sessionStorage.getItem('profileWalletNo');
+    this.isLoading = true;
+    this.apiService.getAwccStockBalance(accountNo).subscribe({
+      next: (res) => {
+        if (res?.responseCode == 200) {
+          this.isLoading = false;
+          this.awccStockBalance = res?.data;
+          console.log(res);
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+        alert('Something Went Wrong.');
+      },
+    });
+  }
+
+  getNonAwccBalance() {
+    let accountNo: any = sessionStorage.getItem('profileWalletNo');
+    this.isLoading = true;
+    this.apiService.getNonAwccStockBalance(accountNo).subscribe({
+      next: (res) => {
+        if (res?.responseCode == 200) {
+          this.isLoading = false;
+          this.nonAwccStockBalance = res?.data;
+          console.log(res);
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+        alert('Something Went Wrong.');
+      },
+    });
   }
 }

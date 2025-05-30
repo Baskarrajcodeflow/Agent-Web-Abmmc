@@ -29,6 +29,9 @@ import { MicroMerchantSignupComponent } from './components/micro-merchant-signup
 import { PushPullMoneyComponent } from './components/wallet-management/push-pull-money/push-pull-money.component';
 import { TopUpRechargeComponent } from './components/top-up-recharge/top-up-recharge.component';
 import { ListUsersComponent } from './components/list-users/list-users.component';
+import { StockPurchaseNewComponent } from './components/Stock-Purchase-New/stock-purchase-new/stock-purchase-new.component';
+import { BundleTopupDashboardComponent } from './components/Bundle-Topup/bundle-topup-dashboard/bundle-topup-dashboard.component';
+import { StockTransferComponent } from './components/stock-transfer/stock-transfer.component';
 
 export const routes: Routes = [
     {
@@ -80,7 +83,16 @@ export const routes: Routes = [
         path : 'manageSubAgent', component : ManageSubAgentComponent 
     },
     {
-        path : 'stockPurchase', component : StockPurchaseComponent 
+        path : 'stockPurchase', component : StockPurchaseNewComponent 
+    },
+    {
+        path : 'stockPurchaseNew', component : StockPurchaseNewComponent
+    },
+    {
+        path : 'bundleTopup', component : BundleTopupDashboardComponent
+    },
+    {
+        path : 'stockTransfer', component : StockTransferComponent
     },
     {
         path : 'customerKYC', component : CustomerSignupComponent 

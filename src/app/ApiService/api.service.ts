@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
 import { environment } from "../../environments/environment";
+import { BundleTopupReq } from "../interfaces/interfaces";
 
 @Injectable({
   providedIn: "root",
@@ -598,5 +599,47 @@ public getSubAgentsByAgent() {
     "application/json"
   );
   return this.http.get<any>(url, { headers: h });
+}
+
+public getNonAwccStockBalance(accNo:number) {
+  let url = `${environment.apiUrl}/ts/api/transaction-services/stockBalance?accNo=${accNo}`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.get<any>(url, { headers: h });
+}
+public getAwccStockBalance(accNo:number) {
+  let url = `${environment.apiUrl}/ts/api/transaction-services/awccStockBalance?accNo=${accNo}`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.get<any>(url, { headers: h });
+}
+
+public stockPurchase(data:any) {
+  let url = `${environment.apiUrl}/tms/api/tms/router/basic`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.post<any>(url,data, { headers: h });
+}
+
+public getBundles() {
+  let url = environment.apiUrl + `/tms/serviceDetail/awcc/bundlePacks`;
+  let h: HttpHeaders =
+    this.getHeaders().set("Content-Type", "application/json");
+    console.log(url);
+  return this.http.get<any>(url, { headers: h })
+}
+public bundleTopup(req : BundleTopupReq){
+  let url = environment.apiUrl + `/tms/api/tms/router/basic`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.post<any>(url, req, { headers: h });
 }
 }

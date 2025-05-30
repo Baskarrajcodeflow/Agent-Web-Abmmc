@@ -1,0 +1,67 @@
+<div class="flex flex-wrap justify-center gap-8 p-8 bg-gradient-to-br from-slate-100 to-white">
+    <!-- Card 1 -->
+    <div class="w-80 bg-white rounded-3xl overflow-hidden shadow-xl relative hover:shadow-2xl transition-shadow duration-300 group">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-indigo-500 to-[#4a517e] p-4 text-white text-center">
+        <div class="text-xl font-semibold tracking-wide">AWCC Stock Purchase</div>
+        <div class="text-xs opacity-80">Stock Summary</div>
+      </div>
+  
+      <!-- Content -->
+      <div class="p-6  flex-col justify-between h">
+        <!-- Balance -->
+        <div class="text-center mb-4">
+          <div class="text-3xl font-bold text-[#4a517e] group-hover:scale-110 transition-transform duration-300">{{ awccStockBalance != null ? (awccStockBalance | number:'1.2-2') : 'NIL' }}</div>
+          <div class="text-sm text-gray-500">Stock Balance</div>
+        </div>
+  
+        <!-- Image -->
+        <div class="flex justify-center mt-auto">
+          <img src="../../../../assets/images/buy.png" alt="Stock Image" class="h-24 object-contain transition-transform duration-300 group-hover:scale-105" />
+        </div>
+      </div>
+      <div class="ml-[17px]">
+        <input [(ngModel)]="awwcAmount"  (keypress)="validateAmount($event)"  class="w-[95%] border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400" placeholder="Enter Amount to Purchase" />
+      </div>
+      <div class="p-4 border-t border-gray-100">
+        <button (click)="purchase('AWCC','AWCC_STOCK_PURCHASE')"
+          class="w-full bg-gradient-to-r from-indigo-500 to-[#4a517e] text-white font-medium py-2 rounded-xl shadow hover:bg-indigo-700 transition duration-300">
+          Purchase Stock
+        </button>
+      </div>
+    </div>
+  
+    <!-- Card 2 -->
+    <div class="w-80 bg-white rounded-3xl overflow-hidden shadow-xl relative hover:shadow-2xl transition-shadow duration-300 group">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-orange-400 to-orange-500 p-4 text-white text-center">
+        <div class="text-xl font-semibold tracking-wide">Non-AWCC Stock Purchase</div>
+        <div class="text-xs opacity-80">Stock Summary</div>
+      </div>
+  
+      <!-- Content -->
+      <div class="p-6 flex-col justify-between ">
+        <!-- Balance -->
+        <div class="text-center mb-4">
+          <div class="text-3xl font-bold text-orange-500 group-hover:scale-110 transition-transform duration-300">{{ nonAwccStockBalance != null ? (nonAwccStockBalance | number:'1.2-2') : 'NIL' }}</div>
+          <div class="text-sm text-gray-500">Stock Balance</div>
+        </div>
+  
+        <!-- Image -->
+        <div class="flex justify-center mt-auto">
+            <img src="../../../../assets/images/buy.png" alt="Stock Image" class="h-24 object-contain transition-transform duration-300 group-hover:scale-105" />
+        </div>
+      </div>
+      <div class="ml-[17px]">
+        <input [(ngModel)]="nonAwwcAmount"  (keypress)="validateAmount($event)" class="w-[95%] border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400" placeholder="Enter Amount to Purchase" />
+      </div>
+      <div class="p-4 border-t border-gray-100">
+        <button (click)="purchase('NON_AWCC','STOCK_PURCHASE')"
+          class="w-full bg-gradient-to-r from-orange-500 to-[#f2970f] text-white font-medium py-2 rounded-xl shadow hover:bg-indigo-700 transition duration-300">
+          Purchase Stock
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <app-loader *ngIf="isLoading"></app-loader>

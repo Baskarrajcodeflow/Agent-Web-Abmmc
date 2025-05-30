@@ -83,3 +83,41 @@ export interface ErrorMessages {
     pattern?: string; // Error message for pattern validation
     // Add more error messages as needed
   }
+
+  export interface BundleItem {
+    id: any,
+    section: string,
+    name: string,
+    price: string,
+    inDeduction: string,
+    govTax: string,
+    normalVol: string,
+    nightVol?: string,
+    validity: string,
+    code: string
+}
+export interface BundleList {
+    voiceBundle: BundleItem[],
+    dataBundle: BundleItem[]
+}
+export interface BundleTopupReq {
+    initiator: {
+        id: number,
+    },
+    serviceProvider: {
+        id: number
+    },
+    serviceReceiver: {
+        id: number
+    },
+    context: {
+        SERVICE_NAME:string,
+        MEDIUM: string,
+        CHANNEL: string,
+        mobileNumber: string,
+        AMOUNT: string,
+        PIN: string,
+        bundle: string
+    }
+
+}
