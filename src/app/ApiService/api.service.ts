@@ -81,7 +81,14 @@ export class ApiService {
     );
     return this.http.get<any>(url, { headers: h });
   }
-
+  public getStockTransferFinalAmount(serviceName:any,amount:any,walletNo:any,id:any) {
+    let url = environment.apiUrl + `/ts/api/transaction-services/getStockTransferFinalAmount?serviceName=${serviceName}&amount=${amount}&walletNo=${walletNo}&id=${id}`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    return this.http.get<any>(url, { headers: h });
+  }
   public transferMoney(data:any) {
     let url = environment.apiUrl + `/tms/api/tms/router/basic`;
     let h: HttpHeaders = this.getHeaders().set(
@@ -328,6 +335,12 @@ public getTranasctionHistory(walletNo: any,trxnType:any,fromDate:any,toDate:any)
   return this.http.get<any>(url, { headers: h })
 }
 
+public stockStmt(param:any,walletNo: any,fromDate:any,toDate:any) {
+  let url = environment.apiUrl + `/ts/api/transaction-services/${param}?wallet=1000000045&fromDate=${fromDate}&toDate=${toDate}`;
+  let h: HttpHeaders =
+    this.getHeaders().set("Content-Type", "application/json");
+  return this.http.get<any>(url, { headers: h })
+}
 //DCMS
 public getSearchWithBenificiaryToken(token:any) {
   let url = `${environment.apiUrl}/dcms/agent/beneficiary?token=${token}`;

@@ -1,37 +1,37 @@
 
 {
   "/constants": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/aaa": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/kyc": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/um": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/pm": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/rmsbo": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/dcms": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   },
@@ -41,12 +41,12 @@
     "changeOrigin": true
   }, 
   "/ts": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/tms": {
-    "target": "http://uatagent.mymoney.af",
+    "target": "http://192.168.0.165:8080",
     "secure": false,
     "changeOrigin": true
   }

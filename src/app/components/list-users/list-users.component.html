@@ -11,7 +11,7 @@
           <th class="p-2 font-semibold">Email</th>
           <th class="p-2 font-semibold">Account State</th>
           <th class="p-2 font-semibold">Account No</th>
-          <th class="p-2 font-semibold">Action</th>
+          <!-- <th class="p-2 font-semibold">Action</th> -->
           <th class="p-2 font-semibold">
             <button mat-icon-button [matMenuTriggerFor]="downloadMenu">
               <mat-icon>download</mat-icon>
@@ -48,13 +48,13 @@
           <td class="p-2 text-blue-600 hover:underline">{{ item?.email }}</td>
           <td class="p-2 text-green-600">{{ item?.accountState }}</td>
           <td class="p-2">{{ item?.walletAccount?.accountNo }}</td>
-          <td class="p-2">
+          <!-- <td class="p-2">
             <button
             (click)="openModal()"
             class="w-full bg-gradient-to-r from-orange-500 to-[#f2970f] text-white text-sm font-medium py-1 px-1 rounded-xl shadow hover:bg-indigo-700 transition duration-300">
               Transfer Stock
             </button>
-          </td>
+          </td> -->
           <td class="p-2">
             <!-- Optional actions for each row -->
           </td>

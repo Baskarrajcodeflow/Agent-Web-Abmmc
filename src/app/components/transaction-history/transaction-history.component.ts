@@ -43,6 +43,7 @@ import { MatMenuModule } from '@angular/material/menu';
   styleUrl: './transaction-history.component.scss',
 })
 export class TransactionHistoryComponent implements OnInit {
+  tranactionHistoryForStock: any;
   constructor(
     private dialog: MatDialog,
     private loginService: ApiService,
@@ -93,6 +94,13 @@ export class TransactionHistoryComponent implements OnInit {
       type: [''],
     });
 
+
+    this.getTrasactionHistory()
+  }
+
+
+  getTrasactionHistory(){
+    
     const today = new Date();
     // console.log('Current Date:', today.toISOString());
     const oneMonthAgo = new Date();
@@ -181,64 +189,51 @@ export class TransactionHistoryComponent implements OnInit {
       });
   }
 
-  search(): void {
+  stockStmt(param:any){
+    
+    const today = new Date();
+    // console.log('Current Date:', today.toISOString());
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(today.getMonth() - 1);
+    // console.log('One Month Ago:', oneMonthAgo);
+
+    const lastMonth = oneMonthAgo;
+    const formatDate = (date: Date): string => {
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+      const year = date.getFullYear();
+      return `${year}-${month}-${day}`;
+    };
+    this.transactionHitoryForm.patchValue({
+      fromDate: formatDate(lastMonth),
+      toDate: formatDate(today),
+    });
+
     let walletNo = sessionStorage.getItem('profileWalletNo');
-    let type = this.transactionHitoryForm.controls['type'].value || 'ALL';
     let fromDate = this.transactionHitoryForm.controls['fromDate'].value;
     let toDate = this.transactionHitoryForm.controls['toDate'].value;
-
-    let strToDate = toDate?.split('-').reverse().join('-');
-    let strFromDate = fromDate?.split('-').reverse().join('-');
+    let strToDate = toDate?.split('-').join('-');
+    let strFromDate = fromDate?.split('-').join('-');
 
     this.dataSharing.show();
     this.loginService
-      .getTranasctionHistory(walletNo, type, strFromDate, strToDate)
+      .stockStmt(
+        param,
+        walletNo,
+        strFromDate,
+        strToDate
+      )
       .subscribe({
         next: (res) => {
+          console.log(res);
+          
           if (res?.responseCode == 200) {
             this.dataSharing.hide();
-            this.tranactionHistory = res?.data;
-            console.log(this.tranactionHistory);
-            this.totalCredit = this.tranactionHistory?.reduce(
-              (acc: number, item: any) => {
-                return acc + parseFloat(item?.creditAmount || '0');
-              },
-              0
-            );
-
-            this.totalDebit = this.tranactionHistory?.reduce(
-              (acc: number, item: any) => {
-                return acc + parseFloat(item?.debitAmount || '0');
-              },
-              0
-            );
-            this.totalCreditCount = this.tranactionHistory?.reduce(
-              (acc: number, item: any) => {
-                // Only count if debit is 0 and credit is non-zero
-                return (
-                  acc +
-                  (parseFloat(item?.debitAmount) === 0 &&
-                  parseFloat(item?.creditAmount) !== 0
-                    ? 1
-                    : 0)
-                );
-              },
-              0
-            );
-
-            this.totalDebitCount = this.tranactionHistory?.reduce(
-              (acc: number, item: any) => {
-                // Only count if credit is 0 and debit is non-zero
-                return (
-                  acc +
-                  (parseFloat(item?.creditAmount) === 0 &&
-                  parseFloat(item?.debitAmount) !== 0
-                    ? 1
-                    : 0)
-                );
-              },
-              0
-            );
+            this.tranactionHistoryForStock = res?.data?.accStatementPojo;
+            console.log(this.tranactionHistoryForStock);
+          }else{
+            this.dataSharing.hide();
+            alert(res?.error)
           }
         },
         error: () => {
@@ -248,9 +243,125 @@ export class TransactionHistoryComponent implements OnInit {
       });
   }
 
-  openDialog(responseData: any) {
+  
+
+  search(): void {
+    let walletNo = sessionStorage.getItem('profileWalletNo');
+    let type = this.transactionHitoryForm.controls['type'].value || 'ALL';
+    let fromDate = this.transactionHitoryForm.controls['fromDate'].value;
+    let toDate = this.transactionHitoryForm.controls['toDate'].value;
+
+    let strToDate = toDate?.split('-').reverse().join('-');
+    let strFromDate = fromDate?.split('-').reverse().join('-');
+    let strToDate1 = toDate?.split('-').join('-');
+    let strFromDate1 = fromDate?.split('-').join('-');
+    if(this.activeTab == 1){
+      this.dataSharing.show();
+      this.loginService
+        .getTranasctionHistory(walletNo, type, strFromDate, strToDate)
+        .subscribe({
+          next: (res) => {
+            if (res?.responseCode == 200) {
+              this.dataSharing.hide();
+              this.tranactionHistory = res?.data;
+              console.log(this.tranactionHistory);
+              this.totalCredit = this.tranactionHistory?.reduce(
+                (acc: number, item: any) => {
+                  return acc + parseFloat(item?.creditAmount || '0');
+                },
+                0
+              );
+  
+              this.totalDebit = this.tranactionHistory?.reduce(
+                (acc: number, item: any) => {
+                  return acc + parseFloat(item?.debitAmount || '0');
+                },
+                0
+              );
+              this.totalCreditCount = this.tranactionHistory?.reduce(
+                (acc: number, item: any) => {
+                  // Only count if debit is 0 and credit is non-zero
+                  return (
+                    acc +
+                    (parseFloat(item?.debitAmount) === 0 &&
+                    parseFloat(item?.creditAmount) !== 0
+                      ? 1
+                      : 0)
+                  );
+                },
+                0
+              );
+  
+              this.totalDebitCount = this.tranactionHistory?.reduce(
+                (acc: number, item: any) => {
+                  // Only count if credit is 0 and debit is non-zero
+                  return (
+                    acc +
+                    (parseFloat(item?.creditAmount) === 0 &&
+                    parseFloat(item?.debitAmount) !== 0
+                      ? 1
+                      : 0)
+                  );
+                },
+                0
+              );
+            }else{
+              alert(res?.error)
+              this.dataSharing.hide();
+            }
+          },
+          error: () => {
+            this.dataSharing.hide();
+            alert('Error While Loading Data');
+          },
+        });
+     }else if(this.activeTab == 2){
+      this.dataSharing.show();
+      this.loginService
+        .stockStmt('stockStmt',walletNo, strFromDate1, strToDate1)
+        .subscribe({
+          next: (res) => {
+            if (res?.responseCode == 200) {
+              this.dataSharing.hide();
+              this.tranactionHistoryForStock = res?.data?.accStatementPojo;
+              console.log(this.tranactionHistoryForStock);
+            }else{
+              alert(res?.error)
+              this.dataSharing.hide();
+            }
+          },
+          error: () => {
+            this.dataSharing.hide();
+            alert('Error While Loading Data');
+          },
+        });
+     }else if(this.activeTab == 3){
+      this.dataSharing.show();
+      this.loginService
+      .stockStmt('awccStockStmt',walletNo, strFromDate1, strToDate1)
+      .subscribe({
+          next: (res) => {
+            if (res?.responseCode == 200) {
+              this.dataSharing.hide();
+              this.tranactionHistoryForStock = res?.data?.accStatementPojo;
+            }else{
+              alert(res?.error)
+              this.dataSharing.hide();
+            }
+          },
+          error: () => {
+            this.dataSharing.hide();
+            alert('Error While Loading Data');
+          },
+        });
+     }
+    
+   
+  }
+
+  openDialog(responseData: any,param:string) {
     const dialogRef = this.dialog.open(TransactionDialogComponent, {
-      data: responseData,
+      data: {responseData,flag:param},
       maxWidth: '500px',
       width: '300px',
       disableClose:true
@@ -633,5 +744,17 @@ export class TransactionHistoryComponent implements OnInit {
     // Create a Blob from the CSV data and trigger download
     const csvBlob: Blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     saveAs(csvBlob, `Transaction-History-Report.csv`);
+  }
+
+  activeTab: number = 1;
+  setActiveTab(tabNumber: number) {
+    this.activeTab = tabNumber;
+     if(tabNumber == 1){
+      this.getTrasactionHistory()
+     }else if(tabNumber == 2){
+      this.stockStmt('stockStmt')
+     }else if(tabNumber == 3){
+      this.stockStmt('awccStockStmt')
+     }
   }
 }

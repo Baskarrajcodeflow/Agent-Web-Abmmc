@@ -82,8 +82,8 @@ export class StockPurchaseNewComponent {
       },
       context: {
         SERVICE_NAME: serviceName,
-        MEDIUM: 'PHONE',
-        CHANNEL: 'PHONE',
+        MEDIUM: 'web',
+        CHANNEL: 'WALLET',
         AMOUNT: String(amount),
         STOCK_TYPE: value,
       },

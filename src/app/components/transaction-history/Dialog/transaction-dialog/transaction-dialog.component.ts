@@ -29,9 +29,15 @@ export class TransactionDialogComponent implements OnInit {
   }
 
   @ViewChild('receiptContent', { static: false }) receiptContent!: ElementRef;
+  @ViewChild('receiptContentStock', { static: false }) receiptContentStock!: ElementRef;
 
-  downloadPDF(): void {
-    const element = this.receiptContent.nativeElement;
+  downloadPDF(param:any): void {
+    let element:any
+    if(param == 'receiptContent'){
+      element = this.receiptContent.nativeElement;
+    }else if(param == 'receiptContentStock'){
+       element = this.receiptContentStock.nativeElement;
+    }
     html2canvas(element, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', [80, 170]); 
@@ -41,9 +47,13 @@ export class TransactionDialogComponent implements OnInit {
       pdf.save('receipt.pdf');
     });
   }
-  async sharePDF(): Promise<void> {
-    const element = this.receiptContent.nativeElement;
-  
+  async sharePDF(param:any): Promise<void> {
+    let element:any
+    if(param == 'receiptContent'){
+      element = this.receiptContent.nativeElement;
+    }else if(param == 'receiptContentStock'){
+       element = this.receiptContentStock.nativeElement;
+    }  
     const canvas = await html2canvas(element, { scale: 2 });
   
     canvas.toBlob(async (blob) => {

@@ -1,8 +1,8 @@
-<div class="max-w-md mx-auto mt-10 p-5 bg-white shadow-lg rounded-2xl">
+<div class="max-w-md mx-auto mt-5 p-5 mb-5 bg-white shadow-lg rounded-2xl">
     <label for="search" class="block text-lg font-semibold text-gray-700 mb-2">Search Users</label>
   
     <div class="relative">
-      <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+      <span (click)="onSearch()" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
         <!-- Heroicon: Magnifying Glass -->
         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
              viewBox="0 0 24 24" stroke="currentColor">
@@ -12,15 +12,16 @@
       </span>
   
       <input
+      (ngModelChange)="onSearchTermChange($event)"
         type="text"
         id="search"
         [(ngModel)]="searchTerm"
         placeholder="Enter Phone Or Wallet No"
-        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="w-full  py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
       <!-- Display result -->
-  <div *ngIf="user" class="max-w-md mx-auto mt-6 p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-sm">
+  <div *ngIf="user" class="max-w-md mx-auto mt-2 p-4 bg-gray-50 border border-gray-200 rounded-xl shadow-sm">
     <h3 class="text-lg font-bold mb-2 text-gray-700">User Details</h3>
     <p class="flex mb-1 text-sm font-medium ml-1 items-center text-gray-700"><span class="mr-2">📛</span><strong>Name:</strong> &nbsp;{{ user.firstName }} {{ user.lastName }}</p>
     <p class="flex mb-1 text-sm font-medium ml-1 items-center text-gray-700"><span class="mr-2">📞</span><strong>Phone:</strong>  &nbsp;{{ user.phone }}</p>
@@ -29,12 +30,46 @@
     <p class="flex mb-1 text-sm font-medium ml-1 items-center text-gray-700"><span class="mr-2">✅</span><strong>Status:</strong>  &nbsp;{{ user.accountState }}</p>
   </div>
   
-    <button
-      (click)="onSearch()"
-      class="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-lg w-full mt-4"
-    >
-      Search
-    </button>
+
+   <div *ngIf="user" class="pt-2">
+    <select
+  [(ngModel)]="selectedOption"
+  class="w-full py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="" disabled selected>Select an option</option>
+  <option value="AWCC_STOCK_TRANSFER">AWCC STOCK TRANSFER
+  </option>
+  <option value="STOCK_TRANSFER">STOCK TRANSFER
+</option>
+</select>
+
+   <div class="pt-2">
+    <input 
+    type="text"
+    id="search"
+    [(ngModel)]="amountValue"
+    placeholder="Enter Amount"
+    class="w-full  py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+   </div>
+  <div  class="text-[rgb(244,122,32)] text-sm" style="font-weight: 400;" *ngIf="totalAmount">
+    <span>The Total Amount including Fees and Commission is</span>
+    {{totalAmount}} AFN
+  </div>
+    <button *ngIf="!totalAmount"
+    (click)="CheckAFC()"
+    class="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-lg w-full mt-4"
+  >
+  Check Fees & Commission
+  </button>
+  <button *ngIf="totalAmount"
+  (click)="sendMoney()"
+  class="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-lg w-full mt-4"
+>
+Trasfer Stock
+</button>
+   </div>
+   
   </div>
   
   <app-loader *ngIf="isLoading"></app-loader>

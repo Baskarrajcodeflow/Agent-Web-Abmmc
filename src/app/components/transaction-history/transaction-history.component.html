@@ -54,45 +54,166 @@
 
 
 <app-spinner></app-spinner>
-<div *ngIf="tranactionHistory" class="relative overflow-y-auto max-h-[350px]">
-  <div *ngFor="let item of tranactionHistory" > <!-- Set max-height -->
-    <div
-      (click)="openDialog(item)"
-      class="min-h-full mt-[8px] max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[32rem] transition duration-300 ease-in-out transform hover:scale-105"
-    >
-      <div
-        class="flex justify-between mx-auto py-[0.5rem] px-[1.5rem]"
-        style="font-family: serif"
-      >
-        <div class="flex gap-1">
-          <div class="leading-6">
-            <p>{{ item?.serviceName }}</p>
-            <p>Date: {{ item?.date }}</p>
+
+
+
+<div class="w-full  ga mx-auto" >
+  <!-- Tab Headers -->
+  <div class="flex justify-center border-b border-gray-200">
+    <button 
+      class="px-4 py-2 -mb-px font-semibold text-gray-600 border-b-2 transition-colors duration-300"
+      [ngClass]="{ 'border-blue-500 text-blue-500': activeTab === 1, 'border-transparent': activeTab !== 1 }"
+      (click)="setActiveTab(1)">
+      Transaction History
+    </button>
+    <button 
+      class="px-4 py-2 -mb-px font-semibold text-gray-600 border-b-2 transition-colors duration-300"
+      [ngClass]="{ 'border-blue-500 text-blue-500': activeTab === 2, 'border-transparent': activeTab !== 2 }"
+      (click)="setActiveTab(2)">
+      
+     Awcc Stock Statement
+    </button>
+    <button 
+      class="px-4 py-2 -mb-px font-semibold text-gray-600 border-b-2 transition-colors duration-300"
+      [ngClass]="{ 'border-blue-500 text-blue-500': activeTab === 3, 'border-transparent': activeTab !== 3 }"
+      (click)="setActiveTab(3)">
+     
+     Non Awcc Stock Statement
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="p-4">
+    <div *ngIf="activeTab === 1">
+      <div *ngIf="tranactionHistory" class="relative overflow-y-auto max-h-[350px]">
+        <div *ngFor="let item of tranactionHistory" > <!-- Set max-height -->
+          <div
+            (click)="openDialog(item,'transactionHitory')"
+            class="min-h-full mt-[8px] max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[32rem] transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            <div
+              class="flex justify-between mx-auto py-[0.5rem] px-[1.5rem]"
+              style="font-family: serif"
+            >
+              <div class="flex gap-1">
+                <div class="leading-6">
+                  <p>{{ item?.serviceName }}</p>
+                  <p>Date: {{ item?.date }}</p>
+                </div>
+              </div>
+              <div class="flex gap-1 my-auto ml-auto amount-container">
+                <div *ngIf="item?.debitAmount === '0.0' && item?.creditAmount !== '0.0'" class="text-green-600">
+                 Credited {{ item?.creditAmount }} AFN
+                </div>
+                <div *ngIf="item?.creditAmount === '0.0' && item?.debitAmount !== '0.0'" class="text-red-600">
+                  Debited {{ item?.debitAmount }} AFN
+                </div>
+                <div *ngIf="item?.creditAmount === '0.0' && item?.debitAmount === '0.0'" class="text-red-600">
+                 Nil
+                </div>
+                <div class="mt-[5px]">
+                  <img src="../../../assets/images/info 1.png" alt="" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="flex gap-1 my-auto ml-auto amount-container">
-          <div *ngIf="item?.debitAmount === '0.0' && item?.creditAmount !== '0.0'" class="text-green-600">
-           Credited {{ item?.creditAmount }} AFN
-          </div>
-          <div *ngIf="item?.creditAmount === '0.0' && item?.debitAmount !== '0.0'" class="text-red-600">
-            Debited {{ item?.debitAmount }} AFN
-          </div>
-          <div *ngIf="item?.creditAmount === '0.0' && item?.debitAmount === '0.0'" class="text-red-600">
-           Nil
-          </div>
-          <div class="mt-[5px]">
-            <img src="../../../assets/images/info 1.png" alt="" />
+        <div
+          class="flex gap-2 mt-[5px]"
+          style="align-items: center; justify-content: center"
+        >
+          <div class="font-bold text-gray-400" style="font-size: 20px;" *ngIf="tranactionHistory.length === 0 || tranactionHistory == null">
+            No Data
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="flex gap-2 mt-[5px]"
-    style="align-items: center; justify-content: center"
-  >
-    <div class="font-bold text-gray-400" style="font-size: 20px;" *ngIf="tranactionHistory.length === 0 || tranactionHistory == null">
-      No Data
+    <div *ngIf="activeTab === 2">
+      <div *ngIf="tranactionHistoryForStock" class="relative overflow-y-auto max-h-[350px]">
+        <div *ngFor="let item of tranactionHistoryForStock" > <!-- Set max-height -->
+          <div
+            (click)="openDialog(item,'stockTransactionHitory')"
+            class="min-h-full mt-[8px] max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[32rem] transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            <div
+              class="flex justify-between mx-auto py-[0.5rem] px-[1.5rem]"
+              style="font-family: serif"
+            >
+              <div class="flex gap-1">
+                <div class="leading-6">
+                  <p>{{ item?.serviceName }}</p>
+                  <p>Date: {{ item?.txnDate }}</p>
+                </div>
+              </div>
+              <div class="flex gap-1 my-auto ml-auto amount-container">
+                <div *ngIf="item?.debit === '0.0' && item?.credit !== '0.0'" class="text-green-600">
+                 Credited {{ item?.credit }} AFN
+                </div>
+                <div *ngIf="item?.credit === '0.0' && item?.debit !== '0.0'" class="text-red-600">
+                  Debited {{ item?.debit }} AFN
+                </div>
+                <div *ngIf="item?.credit === '0.0' && item?.debit === '0.0'" class="text-red-600">
+                 Nil
+                </div>
+                <div class="mt-[5px]">
+                  <img src="../../../assets/images/info 1.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex gap-2 mt-[5px]"
+          style="align-items: center; justify-content: center"
+        >
+          <div class="font-bold text-gray-400" style="font-size: 20px;" *ngIf="tranactionHistory.length === 0 || tranactionHistory == null">
+            No Data
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+    <div *ngIf="activeTab === 3">
+      <div *ngIf="tranactionHistoryForStock" class="relative overflow-y-auto max-h-[350px]">
+        <div *ngFor="let item of tranactionHistoryForStock" > <!-- Set max-height -->
+          <div
+            (click)="openDialog(item,'stockTransactionHitory')"
+            class="min-h-full mt-[8px] max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[32rem] transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            <div
+              class="flex justify-between mx-auto py-[0.5rem] px-[1.5rem]"
+              style="font-family: serif"
+            >
+              <div class="flex gap-1">
+                <div class="leading-6">
+                  <p>{{ item?.serviceName }}</p>
+                  <p>Date: {{ item?.txnDate }}</p>
+                </div>
+              </div>
+              <div class="flex gap-1 my-auto ml-auto amount-container">
+                <div *ngIf="item?.debit === '0.0' && item?.credit !== '0.0'" class="text-green-600">
+                 Credited {{ item?.credit }} AFN
+                </div>
+                <div *ngIf="item?.credit === '0.0' && item?.debit !== '0.0'" class="text-red-600">
+                  Debited {{ item?.debit }} AFN
+                </div>
+                <div *ngIf="item?.credit === '0.0' && item?.debit === '0.0'" class="text-red-600">
+                 Nil
+                </div>
+                <div class="mt-[5px]">
+                  <img src="../../../assets/images/info 1.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex gap-2 mt-[5px]"
+          style="align-items: center; justify-content: center"
+        >
+          <div class="font-bold text-gray-400" style="font-size: 20px;" *ngIf="tranactionHistory.length === 0 || tranactionHistory == null">
+            No Data
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
