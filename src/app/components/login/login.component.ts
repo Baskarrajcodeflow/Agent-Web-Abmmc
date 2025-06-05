@@ -184,6 +184,7 @@ export class LoginComponent {
           this.isLoading = false;
           this.otpDigits = ['', '', '', '', '', ''];
           if(res?.error){
+            this.otpDigits = ['', '', '', '', '', ''];
             alert(res?.error);
           }else if(res?.data){
             alert(res?.data);
